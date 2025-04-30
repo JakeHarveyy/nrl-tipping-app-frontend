@@ -1,0 +1,129 @@
+/* src/components/MatchItem.module.css */
+.matchItem {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .matchInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+  }
+  
+  .teams {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-right: 10px; /* Space before time */
+  }
+  
+  .time {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  .bettingControls {
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+  
+  .oddsButtons {
+    display: flex;
+    justify-content: space-around; /* Evenly space buttons */
+    margin-bottom: 15px;
+  }
+  
+  .oddsButton {
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    background-color: white;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    flex-grow: 1; /* Make buttons take up space */
+    margin: 0 5px; /* Space between buttons */
+    text-align: center;
+  }
+  
+  .oddsButton:hover {
+    background-color: #e7f3ff;
+  }
+  
+  .oddsButton.selected {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .oddsButton:disabled {
+      background-color: #e9ecef;
+      border-color: #ced4da;
+      color: #6c757d;
+      cursor: not-allowed;
+  }
+  
+  
+  .betInputArea {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Space between elements */
+      flex-wrap: wrap; /* Allow wrapping */
+      margin-top: 10px;
+  }
+  
+  .amountInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 80px; /* Adjust width as needed */
+  }
+  
+  .placeBetButton {
+     padding: 8px 12px;
+     background-color: #28a745;
+     color: white;
+     border: none;
+     border-radius: 3px;
+     cursor: pointer;
+  }
+   .placeBetButton:disabled {
+      background-color: #a3d9b1;
+      cursor: not-allowed;
+  }
+  
+  
+  .payout {
+      font-size: 0.9em;
+      color: #333;
+      margin-left: auto; /* Push payout info to the right */
+  }
+  
+  .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 10px;
+      width: 100%; /* Take full width */
+      text-align: center;
+  }
+  
+  .success {
+      color: green;
+      font-size: 0.9em;
+      margin-top: 10px;
+       width: 100%;
+      text-align: center;
+  }
+  
+   .loginPrompt {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 10px;
+  }

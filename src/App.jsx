@@ -9,6 +9,8 @@ import DashboardPage from './pages/DashboardPage.jsx'; // Example protected page
 import NotFoundPage from './pages/NotFoundPage.jsx'; 
 import ProtectedRoute from './components/ProtectedRoute.jsx'; 
 import GoogleCallbackPage from './pages/GoogleCallbackPage.jsx';
+import MyBetsPage from './pages/MyBetsPage.jsx';
+import ResultsPage from './pages/ResultsPage.jsx';
 
 function App() {
   return (
@@ -19,11 +21,13 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="results" element={<ResultsPage />} />
         {/* Add other public routes like leaderboard here */}
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}> {/* Wrapper for protected routes */}
              <Route path="dashboard" element={<DashboardPage />} />
+             <Route path="my-bets" element={<MyBetsPage />} />
              {/* Add other protected routes like "place bet", "my bets" here */}
         </Route>
 

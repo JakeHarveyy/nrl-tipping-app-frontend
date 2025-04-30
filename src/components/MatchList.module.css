@@ -1,0 +1,9 @@
+/* src/components/MatchList.module.css */
+.matchListContainer {
+    margin-top: 20px;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+  }

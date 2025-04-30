@@ -1,0 +1,87 @@
+/* src/pages/ResultsPage.module.css */
+.resultsContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .resultsContainer h2 {
+      text-align: center;
+      margin-bottom: 30px;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .resultItem {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .matchHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .matchScore {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
+  .matchScore span {
+      flex: 1; /* Allow team names to take space */
+      text-align: center;
+  }
+  .matchScore span:first-child {
+      text-align: left;
+  }
+  .matchScore span:last-child {
+      text-align: right;
+  }
+  
+  
+  .score {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 15px;
+    color: #333;
+    white-space: nowrap; /* Prevent score breaking line */
+  }
+  
+  .winner {
+    font-weight: bold;
+    color: #00aa0e; /* Highlight winner */
+  }
+  
+  .winnerInfo {
+      text-align: center;
+      font-size: 0.95em;
+      margin-top: 8px;
+      color: #444;
+  }
