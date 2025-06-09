@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import styles from './MatchItem.module.css'; // Optional CSS Module
 import { useAuth } from '../hooks/useAuth'; // To check if user is authenticated
+import { getTeamLogo } from '../assets/logoMap';
 
-const MatchItem = ({ match, onBetPlaced }) => {
+const MatchItem = ({ match, onBetPlaced, bettingAllowed, roundInfo}) => {
   const { isAuthenticated } = useAuth(); // Check login status
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [betAmount, setBetAmount] = useState('');
@@ -12,6 +13,7 @@ const MatchItem = ({ match, onBetPlaced }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const isMatchTimePassed = new Date(match.start_time) <= new Date();
 
   const handleTeamSelect = (team, odds) => {
     if (team === selectedTeam) {
@@ -98,63 +100,94 @@ const MatchItem = ({ match, onBetPlaced }) => {
     timeStyle: 'short',   // e.g., 7:50 PM
   });
 
+  const homeLogo = getTeamLogo(match.home_team);
+  const awayLogo = getTeamLogo(match.away_team);
+
   // TODO: Add countdown timer later
 
   return (
     <div className={styles.matchItem}>
-      <div className={styles.matchInfo}>
-        <span className={styles.teams}>{match.home_team} vs {match.away_team}</span>
-        <span className={styles.time}>{formattedTime}</span>
+      {/* Top section: Teams and Time */}
+      <div className={styles.matchDetails}>
+        {/* Home Team */}
+        <div className={`${styles.teamInfo} ${styles.homeTeam}`}>
+          <span className={styles.teamName}>{match.home_team}</span>
+          {homeLogo && <img src={homeLogo} alt={`${match.home_team} logo`} className={styles.teamLogo} />}
+        </div>
+
+        {/* Time */}
+        <div className={styles.matchTime}>
+            {formattedTime}
+        </div>
+
+        {/* Away Team */}
+        <div className={`${styles.teamInfo} ${styles.awayTeam}`}>
+           {awayLogo && <img src={awayLogo} alt={`${match.away_team} logo`} className={styles.teamLogo} />}
+           <span className={styles.teamName}>{match.away_team}</span>
+        </div>
       </div>
 
-      {isAuthenticated && ( // Only show betting controls if logged in
-        <div className={styles.bettingControls}>
-          <div className={styles.oddsButtons}>
-            <button
-              onClick={() => handleTeamSelect(match.home_team, match.home_odds)}
-              className={`${styles.oddsButton} ${selectedTeam === match.home_team ? styles.selected : ''}`}
-              disabled={!match.home_odds || loading}
-            >
-              {match.home_team} ({match.home_odds || 'N/A'})
-            </button>
-            <button
-              onClick={() => handleTeamSelect(match.away_team, match.away_odds)}
-              className={`${styles.oddsButton} ${selectedTeam === match.away_team ? styles.selected : ''}`}
-              disabled={!match.away_odds || loading}
-            >
-              {match.away_team} ({match.away_odds || 'N/A'})
-            </button>
-          </div>
-
-          {selectedTeam && ( // Show amount input only when a team is selected
-            <div className={styles.betInputArea}>
-              <label htmlFor={`amount-${match.match_id}`}>Bet Amount ($):</label>
-              <input
-                type="text" // Use text to allow easier formatting/validation control
-                inputMode="decimal" // Hint for mobile keyboards
-                id={`amount-${match.match_id}`}
-                value={betAmount}
-                onChange={handleAmountChange}
-                placeholder="0.00"
-                className={styles.amountInput}
-                disabled={loading}
-              />
-              <button
-                onClick={handlePlaceBet}
-                disabled={!selectedTeam || !betAmount || parseFloat(betAmount) <= 0 || loading}
-                className={styles.placeBetButton}
-              >
-                {loading ? 'Placing...' : 'Place Bet'}
-              </button>
-              {potentialPayout > 0 && (
-                  <span className={styles.payout}>Potential Payout: ${potentialPayout}</span>
-              )}
-            </div>
-          )}
-          {error && <p className={styles.error}>{error}</p>}
-          {success && <p className={styles.success}>{success}</p>}
+      {/* Odds Buttons Area */}
+      {/* Disable if not authenticated OR bettingNotAllowed OR match has started */}
+      {isAuthenticated && (
+        <div className={styles.oddsArea}>
+           <button
+             onClick={() => handleTeamSelect(match.home_team, match.home_odds)}
+             className={`${styles.oddsButton} ${selectedTeam === match.home_team ? styles.selected : ''}`}
+             disabled={!bettingAllowed || isMatchTimePassed || !match.home_odds || loading} // <<< MODIFIED
+           >
+              ${match.home_odds?.toFixed(2) || 'N/A'}
+           </button>
+           <button
+             onClick={() => handleTeamSelect(match.away_team, match.away_odds)}
+             className={`${styles.oddsButton} ${selectedTeam === match.away_team ? styles.selected : ''}`}
+             disabled={!bettingAllowed || isMatchTimePassed || !match.away_odds || loading} // <<< MODIFIED
+           >
+              ${match.away_odds?.toFixed(2) || 'N/A'}
+           </button>
         </div>
       )}
+
+      {/* Betting Input Area (Conditional) */}
+      {isAuthenticated && selectedTeam && bettingAllowed && !isMatchTimePassed && (
+        <div className={styles.betInputArea}>
+             <label htmlFor={`amount-${match.match_id}`}>Bet Amount ($):</label>
+             <input
+               type="text"
+               inputMode="decimal"
+               id={`amount-${match.match_id}`}
+               value={betAmount}
+               onChange={handleAmountChange}
+               placeholder="0.00"
+               className={styles.amountInput}
+               disabled={loading}
+             />
+             <button
+               onClick={handlePlaceBet}
+               disabled={!bettingAllowed || isMatchTimePassed || !selectedTeam || !betAmount || parseFloat(betAmount) <= 0 || loading}
+               className={styles.placeBetButton}
+             >
+               {loading ? 'Placing...' : 'Place Bet'}
+             </button>
+             {potentialPayout > 0 && (
+                 <span className={styles.payout}>Returns: ${potentialPayout}</span>
+             )}
+        </div>
+      )}
+
+       {/* Error/Success Messages */}
+       {isAuthenticated && error && <p className={styles.error}>{error}</p>}
+       {isAuthenticated && success && <p className={styles.success}>{success}</p>}
+
+       {/* Show reason if betting is not allowed */}
+      {isAuthenticated && !isMatchTimePassed && !bettingAllowed && roundInfo?.status !== 'Active' && (
+          <p className={styles.bettingDisabledReason}>Betting only allowed for 'Active' rounds.</p>
+      )}
+      {isAuthenticated && isMatchTimePassed && (
+          <p className={styles.bettingDisabledReason}>Betting closed: Match has started or finished.</p>
+      )}
+
+       {/* Login Prompt */}
        {!isAuthenticated && (
            <p className={styles.loginPrompt}>Please log in to place bets.</p>
        )}

@@ -1,0 +1,72 @@
+/* src/pages/LeaderboardPage.module.css */
+.leaderboardContainer {
+    padding: 20px;
+    max-width: 700px; /* Adjust width as needed */
+    margin: 20px auto;
+  }
+  
+  .leaderboardContainer h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .leaderboardTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .leaderboardTable thead {
+    background-color: #007bff; /* Header background */
+    color: white;
+  }
+  
+  .leaderboardTable th,
+  .leaderboardTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .leaderboardTable th {
+      font-weight: bold;
+  }
+  
+  .leaderboardTable tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Zebra striping */
+  }
+  
+  .leaderboardTable tbody tr:hover {
+    background-color: #e9ecef; /* Hover effect */
+  }
+  
+  /* Align rank and bankroll */
+  .leaderboardTable td:first-child,
+  .leaderboardTable td:last-child {
+    text-align: right;
+    font-family: monospace; /* Optional: Monospace for numbers */
+  }
+  .leaderboardTable th:first-child,
+  .leaderboardTable th:last-child {
+     text-align: right;
+  }
+  
+  .leaderboardContainer p {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 30px;
+  }

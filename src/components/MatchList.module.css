@@ -7,3 +7,42 @@
     color: red;
     font-weight: bold;
   }
+
+.roundSelector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.roundSelector h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.roundSelector button {
+  padding: 8px 15px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.roundSelector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bettingNotice {
+    text-align: center;
+    font-style: italic;
+    color: #e67e22; /* Orange for warning */
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff8e1;
+    border: 1px solid #ffe5b9;
+    border-radius: 4px;
+}

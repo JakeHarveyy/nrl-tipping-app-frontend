@@ -1,65 +1,98 @@
 /* src/components/MatchItem.module.css */
 .matchItem {
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     padding: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   }
   
-  .matchInfo {
+  /* Top section layout */
+  .matchDetails {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
   }
   
-  .teams {
+  .teamInfo {
+    display: flex;
+    align-items: center;
+    flex: 1; /* Allow team sections to grow */
+    min-width: 0; /* Prevent overflow issues */
+  }
+  
+  .homeTeam {
+    justify-content: flex-start; /* Align content to the start */
+  }
+  
+  .awayTeam {
+    justify-content: flex-end; /* Align content to the end */
+  }
+  
+  .teamLogo {
+    width: 35px; /* Adjust size */
+    height: 35px;
+    object-fit: contain;
+    margin: 0 10px; /* Space around logo */
+  }
+  .homeTeam .teamLogo { order: 1; } /* Logo after name for home */
+  .homeTeam .teamName { order: 0; text-align: left;}
+  
+  .awayTeam .teamLogo { order: 0; } /* Logo before name for away */
+  .awayTeam .teamName { order: 1; text-align: right;}
+  
+  .teamName {
     font-weight: bold;
     font-size: 1.1em;
-    margin-right: 10px; /* Space before time */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1; /* Allow shrinking if needed */
   }
   
-  .time {
-    font-size: 0.9em;
-    color: #555;
+  .matchTime {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    padding: 0 20px; /* Space around the time */
+    flex-shrink: 0; /* Don't shrink time */
+    white-space: nowrap;
   }
   
-  .bettingControls {
-    margin-top: 10px;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-  }
-  
-  .oddsButtons {
+  /* Odds area layout */
+  .oddsArea {
     display: flex;
-    justify-content: space-around; /* Evenly space buttons */
-    margin-bottom: 15px;
+    justify-content: space-between; /* Puts space between buttons */
+    align-items: center;
+    margin-top: 10px;
   }
   
   .oddsButton {
-    padding: 8px 12px;
+    flex-basis: 45%; /* Roughly control width, adjust as needed */
+    padding: 10px 5px; /* More padding */
     border: 1px solid #007bff;
-    background-color: white;
-    color: #007bff;
-    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-    flex-grow: 1; /* Make buttons take up space */
-    margin: 0 5px; /* Space between buttons */
+    transition: background-color 0.2s, opacity 0.2s;
+    font-weight: bold;
+    font-size: 1em;
     text-align: center;
   }
   
   .oddsButton:hover {
-    background-color: #e7f3ff;
+    background-color: #0056b3;
   }
   
   .oddsButton.selected {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
+    border-width: 2px;
+    border-color: #003d7e;
+    opacity: 0.8; /* Indicate selection */
   }
   
   .oddsButton:disabled {
@@ -67,63 +100,67 @@
       border-color: #ced4da;
       color: #6c757d;
       cursor: not-allowed;
+      opacity: 0.7;
   }
   
-  
+  /* Betting input area */
   .betInputArea {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #f0f0f0;
       display: flex;
       align-items: center;
-      gap: 10px; /* Space between elements */
-      flex-wrap: wrap; /* Allow wrapping */
-      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center; /* Center items */
   }
   
   .amountInput {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    width: 80px; /* Adjust width as needed */
+    width: 90px; /* Adjust width */
   }
   
   .placeBetButton {
-     padding: 8px 12px;
+     padding: 8px 15px;
      background-color: #28a745;
      color: white;
      border: none;
      border-radius: 3px;
      cursor: pointer;
+     font-weight: bold;
   }
    .placeBetButton:disabled {
       background-color: #a3d9b1;
       cursor: not-allowed;
   }
   
-  
   .payout {
-      font-size: 0.9em;
+      font-size: 0.95em;
       color: #333;
-      margin-left: auto; /* Push payout info to the right */
+      font-weight: 500;
+      margin-left: 10px;
   }
   
-  .error {
-      color: red;
+  /* Error/Success/Login Prompt styles */
+  .error, .success, .loginPrompt {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
       font-size: 0.9em;
-      margin-top: 10px;
-      width: 100%; /* Take full width */
-      text-align: center;
   }
+
+  .bettingDisabledReason {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
   
-  .success {
-      color: green;
-      font-size: 0.9em;
-      margin-top: 10px;
-       width: 100%;
-      text-align: center;
-  }
-  
-   .loginPrompt {
-      font-style: italic;
-      color: #666;
-      text-align: center;
-      margin-top: 10px;
-  }
+  .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;}
+  .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb;}
+  .loginPrompt { color: #666; font-style: italic; background-color: #f8f9fa; border: 1px solid #e9ecef;}

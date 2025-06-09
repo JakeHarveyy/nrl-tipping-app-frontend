@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'; // Add useEffect, useState
 import { useAuth } from '../hooks/useAuth';
 import MatchList from '../components/MatchList.jsx'; // Import MatchList
 import api from '../services/api'; // Import api service
+import BankrollChart from '../components/BankrollChart.jsx';
 
 const DashboardPage = () => {
   const { user, setUser, token } = useAuth(); // Get setUser and token
@@ -30,10 +31,17 @@ const DashboardPage = () => {
     }
   }, [user]); // Run when user object changes
 
+  useEffect(() => {
+    fetchUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+
   // Callback function passed to MatchList -> MatchItem
   const handleBetPlaced = () => {
       console.log("Bet placed, refreshing user profile on Dashboard...");
       fetchUserProfile(); // Refetch user profile after bet is placed
+      // TODO: Ideally also trigger chart refresh if needed, but chart fetches its own data on mount
   };
 
   return (
@@ -45,9 +53,12 @@ const DashboardPage = () => {
               {/* Format bankroll */}
               <p><strong>Current Bankroll: ${Number(bankroll).toFixed(2)}</strong></p>
           </div>
-
           {/* Add Match List Component */}
           <MatchList onBetPlaced={handleBetPlaced} />
+
+          {/* --- ADD BANKROLL CHART --- */}
+          <BankrollChart />
+          {/* ------------------------- */}
 
           {/* Add sections for My Bets, Bankroll History later */}
       </div>
