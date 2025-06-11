@@ -1,12 +1,12 @@
 /* src/components/MatchItem.module.css */
 .matchItem {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  }
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px 20px; /* Adjust padding */
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
   
   /* Top section layout */
   .matchDetails {
@@ -14,94 +14,185 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f0f0f0;
   }
   
-  .teamInfo {
-    display: flex;
-    align-items: center;
-    flex: 1; /* Allow team sections to grow */
-    min-width: 0; /* Prevent overflow issues */
-  }
+.matchDateHeader {
+  text-align: center;
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.matchDetailsRow {
+  display: flex;
+  justify-content: space-between; /* Distributes space */
+  align-items: center;
+  margin-bottom: 20px; /* Space before odds */
+}
+
+.teamNameBlock {
+  flex: 1; /* Allow to take up available space */
+  display: flex;
+  justify-content: center;
+  padding: 0 10px; /* Some padding around name */
+}
+.homeTeamNameBlock { text-align: left; }
+.awayTeamNameBlock { text-align: right; }
+
+.teamBlock {
+  display: flex;
+  align-items: center;
+  min-width: 0; /* Prevent overflow */
+  justify-content: center;
+}
+
+.homeTeamBlock {justify-content: center;} /* Text align name */
+.awayTeamBlock {justify-content: center;} /* Text align name */
+
+.teamName {
+  font-weight: bold;
+  font-size: 1.8em; /* Larger team names */
+  color: #333;
+  margin: 0 5px; /* Add some horizontal margin */
+}
+
+.teamLogo {
+  width: 80px; /* Adjust logo size */
+  height: 80px;
+  object-fit: contain;
+}
+
+.homeLogo { margin-right: 15px; } /* Space between home logo and center */
+.awayLogo { margin-left: 15px; } /* Space between away logo and center */
   
-  .homeTeam {
-    justify-content: flex-start; /* Align content to the start */
-  }
-  
-  .awayTeam {
-    justify-content: flex-end; /* Align content to the end */
-  }
-  
-  .teamLogo {
-    width: 35px; /* Adjust size */
-    height: 35px;
-    object-fit: contain;
-    margin: 0 10px; /* Space around logo */
-  }
-  .homeTeam .teamLogo { order: 1; } /* Logo after name for home */
-  .homeTeam .teamName { order: 0; text-align: left;}
-  
-  .awayTeam .teamLogo { order: 0; } /* Logo before name for away */
-  .awayTeam .teamName { order: 1; text-align: right;}
-  
-  .teamName {
+.matchCenter {
+  display: flex;
+  flex-direction: column; /* Stack time/scores above status text */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 100px; /* Give it some base width */
+  padding: 0 10px;
+}
+
+.kickoffTime {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #333;
+  line-height: 1;
+}
+
+.score {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #111;
+  line-height: 1;
+  /* margin: 0 5px; Remove if using flex gap in .matchCenter for live scores*/
+}
+
+.winningScore {
+    color: #089131; 
+    
+}
+
+.centerStatusText {
+  font-size: 0.7em; /* Smaller for FULL TIME/LIVE */
+  font-weight: 500;
+  color: #555;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 2px; /* Space below score */
+}
+.liveMatch .centerStatusText { /* If .matchItem has .liveMatch */
+    color: red;
     font-weight: bold;
-    font-size: 1.1em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1; /* Allow shrinking if needed */
-  }
-  
-  .matchTime {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    padding: 0 20px; /* Space around the time */
-    flex-shrink: 0; /* Don't shrink time */
-    white-space: nowrap;
-  }
-  
+}
+
+/* Override .matchCenter for live/completed scores to be inline */
+.matchCenter > .score, .matchCenter > .centerStatusText {
+    display: inline-block; /* For horizontal layout of scores and status */
+    margin: 0 5px;
+}
+.matchCenter > .score:first-of-type { margin-left: 0; }
+.matchCenter > .score:last-of-type { margin-right: 0; }
+
+.liveScoreDisplay {
+  display: flex;
+  flex-direction: column; /* Lay out scores and status horizontally */
+  align-items: center; /* Vertically align items if they have different heights */
+  justify-content: center;
+  gap: 8px; /* Adds space between home score, status, and away score */
+  width: 100%; /* Allow it to take the width of the matchCenter area */
+}
+
+.scoreSeparator {
+  font-size: 1.5em; /* Adjust size of hyphen if needed */
+  font-weight: bold;
+  color: #333; /* Color for the hyphen */
+  margin: 0 2px; /* Slight horizontal margin if gap isn't enough */
+}
+
+.scoreRow {
+  display: flex;
+  flex-direction: row; /* Scores and separator are horizontal */
+  align-items: center; /* Vertically align scores and hyphen */
+  justify-content: center;
+  gap: 8px; /* Space around the hyphen */
+}
+
   /* Odds area layout */
-  .oddsArea {
-    display: flex;
-    justify-content: space-between; /* Puts space between buttons */
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .oddsButton {
-    flex-basis: 45%; /* Roughly control width, adjust as needed */
-    padding: 10px 5px; /* More padding */
-    border: 1px solid #007bff;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s, opacity 0.2s;
-    font-weight: bold;
-    font-size: 1em;
-    text-align: center;
-  }
-  
-  .oddsButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .oddsButton.selected {
-    border-width: 2px;
-    border-color: #003d7e;
-    opacity: 0.8; /* Indicate selection */
-  }
-  
-  .oddsButton:disabled {
+  /* Odds Area */
+.oddsRow {
+  display: flex;
+  justify-content: space-between; /* Distributes the two odds blocks */
+  align-items: flex-start; /* Align items to the top of the row */
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.oddsBlock {
+  flex: 1; /* Each odds block takes up half the available space (after separator) */
+  display: flex;
+  justify-content: center; /* Center the button within this block */
+  padding: 0 5px; /* Some padding for the block */
+}
+
+.oddsButton {
+  /* width: 100%; */ /* Let it take width of its content or set a specific width */
+  max-width: 160px; /* Or whatever fits your design */
+  min-width: 100px; /* Ensure it has some minimum width */
+  padding: 10px 15px; /* Adjust padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.0em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.oddsButton:hover { background-color: #0056b3; }
+.oddsButton.selected { opacity: 0.8; border: 2px solid #28a745; background-color: #28a745;}
+.oddsButton:disabled {
       background-color: #e9ecef;
       border-color: #ced4da;
       color: #6c757d;
       cursor: not-allowed;
       opacity: 0.7;
   }
+
+.oddsSeparator {
+    flex-grow: 1; /* Takes up space in the middle */
+    text-align: center;
+    /* Could add a logo here later if needed */
+}
+  
+  
   
   /* Betting input area */
   .betInputArea {
@@ -160,6 +251,45 @@
     margin-top: 10px;
     font-size: 0.9em;
 }
+
+/* style for live/completed matches */
+.liveMatch {
+  border: 2px solid red !important; /* Emphasize with red border */
+  box-shadow: 0 0 10px rgba(255,0,0,0.3);
+}
+
+.finalScore { /* Style for final score when match is completed */
+    color: #333; /* Or a different color to distinguish from live */
+    font-size: 1.3em; /* Keep it prominent */
+    font-weight: bold;
+}
+
+.completedMatch {
+  opacity: 0.7; /* Make fade a bit more noticeable */
+  background-color: #f0f0f0; /* Light grey background */
+  border-left-color: #6c757d; /* Keep consistent with .void or similar */
+}
+
+/* Match Meta (Date and Status) */
+.matchMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #eee; /* Dashed for meta info */
+}
+
+
+
+/* Status specific text styling */
+.scheduled { background-color: #e0e0e0; color: #555; }
+.live { background-color: red; color: white; }
+.completed { background-color: #28a745; color: white; }
+.postponed { background-color: #ffc107; color: #333; }
+.cancelled { background-color: #6c757d; color: white; }
   
   .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;}
   .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb;}

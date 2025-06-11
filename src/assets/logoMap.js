@@ -34,7 +34,7 @@ const logoMap = {
     "Sea Eagles": seaeagles,
     "Sharks": sharks,
     "Storm": storm,
-    "Tigers": tigers,
+    "Wests Tigers": tigers,
     "Titans": titans,
     "Warriors": warriors,
   };
