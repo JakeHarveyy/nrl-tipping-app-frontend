@@ -5,7 +5,7 @@ import styles from './MatchItem.module.css'; // Optional CSS Module
 import { useAuth } from '../hooks/useAuth'; // To check if user is authenticated
 import { getTeamLogo } from '../assets/logoMap';
 
-const MatchItem = ({ match, onBetPlaced, bettingAllowed, roundInfo}) => {
+const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInfo}) => {
   const { isAuthenticated } = useAuth(); // Check login status
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [betAmount, setBetAmount] = useState('');
@@ -19,6 +19,22 @@ const MatchItem = ({ match, onBetPlaced, bettingAllowed, roundInfo}) => {
   // Betting is allowed if the round is active, the match hasn't started, AND the user is logged in.
   const overallBettingAllowed = isAuthenticated && bettingAllowed && !isMatchTimePassed;
 
+  // Determine current scores to display
+  let displayHomeScore = match.result_home_score;
+  let displayAwayScore = match.result_away_score;
+  let displayStatus = match.status;
+
+  if (liveScoreData) { // If live score data exists for this match
+      if (liveScoreData.status === 'Live') {
+          displayHomeScore = liveScoreData.home;
+          displayAwayScore = liveScoreData.away;
+          displayStatus = 'Live';
+      } else if (liveScoreData.status === 'Completed' || liveScoreData.status === 'Finished') {
+          displayHomeScore = liveScoreData.home;
+          displayAwayScore = liveScoreData.away;
+          displayStatus = 'Completed'; // Standardize to 'Completed'
+      }
+  }
 
   //Handler Functions
 
@@ -153,11 +169,11 @@ const MatchItem = ({ match, onBetPlaced, bettingAllowed, roundInfo}) => {
                     {/* New wrapper for the scores to be in a row */}
                     <div className={styles.scoreRow}>
                         <span className={`${styles.score} ${match.winner === match.home_team && match.status === 'Completed' ? styles.winningScore : ''}`}>
-                            {match.result_home_score ?? '-'}
+                            {displayHomeScore ?? '-'}
                         </span>
                         <span className={styles.scoreSeparator}>-</span> {/* Separator for scores */}
                         <span className={`${styles.score} ${match.winner === match.away_team && match.status === 'Completed' ? styles.winningScore : ''}`}>
-                            {match.result_away_score ?? '-'}
+                            {displayAwayScore ?? '-'}
                         </span>
                     </div>
                     {/* Status text will be the next item in the column flow */}

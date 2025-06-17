@@ -15,7 +15,6 @@ const Navbar = () => {
         {/* <NavLink to="/leaderboard" className={({ isActive }) => isActive ? 'active' : ''}>Leaderboard</NavLink> */}
         {isAuthenticated && <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>}
         <NavLink to="/leaderboard" className={({ isActive }) => isActive ? 'active' : ''}>Leaderboard</NavLink>
-        <NavLink to="/results" className={({ isActive }) => isActive ? 'active' : ''}>Match Results</NavLink>
         {isAuthenticated && <NavLink to="/my-bets" className={({ isActive }) => isActive ? 'active' : ''}>My Bets</NavLink>}
          {/* Add other links */}
       </div>

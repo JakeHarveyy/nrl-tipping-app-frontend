@@ -10,6 +10,7 @@ const MatchList = ({ onBetPlaced }) => {
   const [currentDisplayRound, setCurrentDisplayRound] = useState(null); // { number, year }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [liveScores, setLiveScores] = useState({});
 
   const loadMatches = async (roundNumber, year) => {
     console.log(`loadMatches called with: roundNumber=${roundNumber}, year=${year}`);
@@ -70,6 +71,81 @@ const MatchList = ({ onBetPlaced }) => {
     loadMatches(null, null); // Fetch initial active/upcoming round
   }, []); // Runs only on mount
 
+  // --- SSE Effect ---
+  useEffect(() => {
+    console.log("MatchList: Setting up SSE connection.");
+    const eventSource = new EventSource('http://127.0.0.1:5000/api/stream/updates');
+
+    eventSource.onmessage = (event) => {
+        // Generic message handler if no event type is specified by server
+        // We rely on server sending "event: event_type"
+    };
+
+    eventSource.addEventListener('score_update', (event) => {
+        try {
+            const update = JSON.parse(event.data);
+            console.log('SSE score_update received:', update);
+            if (update.match_id && update.home_score !== undefined && update.away_score !== undefined) {
+                setLiveScores(prevScores => ({
+                    ...prevScores,
+                    [update.match_id]: {
+                        home: update.home_score,
+                        away: update.away_score,
+                        status: update.status // Could also update status
+                    }
+                }));
+                // Optionally, update the main matches array if status changes
+                setMatches(prevMatches => prevMatches.map(m =>
+                    m.match_id === update.match_id ? { ...m, status: update.status /* any other fields from SSE */ } : m
+                ));
+            }
+        } catch (e) {
+            console.error("Error parsing SSE score_update data:", e);
+        }
+    });
+
+    eventSource.addEventListener('match_finished', (event) => {
+        try {
+            const update = JSON.parse(event.data);
+            console.log('SSE match_finished received:', update);
+            if (update.match_id) {
+                // Update local state to reflect match finished
+                setLiveScores(prevScores => ({
+                    ...prevScores,
+                    [update.match_id]: {
+                        home: update.home_score,
+                        away: update.away_score,
+                        status: 'Completed' // Or 'Finished'
+                    }
+                }));
+                // Update the main matches array
+                 setMatches(prevMatches => prevMatches.map(m =>
+                    m.match_id === update.match_id
+                        ? { ...m, status: 'Completed', result_home_score: update.home_score, result_away_score: update.away_score, winner: update.winner }
+                        : m
+                ));
+                // Inform dashboard or other components to refresh bankroll/bets if needed
+                if (onBetPlaced) onBetPlaced(); // Re-using this callback to trigger a general refresh
+            }
+        } catch (e) {
+            console.error("Error parsing SSE match_finished data:", e);
+        }
+    });
+
+
+    eventSource.onerror = (err) => {
+      console.error("SSE EventSource failed:", err);
+      // EventSource attempts to reconnect automatically by default.
+      // You might close it explicitly if server indicates permanent closure.
+    };
+
+    // Cleanup on component unmount
+    return () => {
+      console.log("MatchList: Closing SSE connection.");
+      eventSource.close();
+    };
+  }, [onBetPlaced]); // Rerun if onBetPlaced changes, though usually stable
+
   const handleNextRound = () => {
     if (currentDisplayRound && !loading) {
       const nextRoundNum = currentDisplayRound.number + 1;
@@ -109,6 +185,7 @@ const MatchList = ({ onBetPlaced }) => {
             <MatchItem
               key={match.match_id}
               match={match}
+              liveScoreData={liveScores[match.match_id]} // Pass live score data
               onBetPlaced={onBetPlaced}
               bettingAllowed={roundInfo?.status === 'Active'} // Pass based on roundInfo
             />
