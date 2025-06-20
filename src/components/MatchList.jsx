@@ -68,17 +68,23 @@ const MatchList = ({ onBetPlaced }) => {
 
   useEffect(() => {
     console.log("MatchList: Initial mount, fetching default matches.");
-    loadMatches(null, null); // Fetch initial active/upcoming round
-  }, []); // Runs only on mount
+    loadMatches(currentDisplayRound?.number, currentDisplayRound?.year); // Fetch initial active/upcoming round
+  }, [currentDisplayRound?.number, currentDisplayRound?.year]); // Runs only on mount
 
   // --- SSE Effect ---
   useEffect(() => {
     console.log("MatchList: Setting up SSE connection.");
     const eventSource = new EventSource('http://127.0.0.1:5000/api/stream/updates');
 
+    eventSource.onopen = (event) => {
+    console.log("SSE Connection opened:", event);
+    };
+
     eventSource.onmessage = (event) => {
-        // Generic message handler if no event type is specified by server
-        // We rely on server sending "event: event_type"
+      console.log('SSE RAW MESSAGE RECEIVED:', event); // Log the whole event object
+      console.log('SSE Raw data:', event.data);
+      console.log('SSE Raw event type (if any):', event.type); // 'message' for untyped, or custom type
+      console.log('SSE event.lastEventId:', event.lastEventId);
     };
 
     eventSource.addEventListener('score_update', (event) => {
@@ -129,6 +135,32 @@ const MatchList = ({ onBetPlaced }) => {
             }
         } catch (e) {
             console.error("Error parsing SSE match_finished data:", e);
+        }
+    });
+
+    eventSource.addEventListener('odds_update', (event) => {
+        console.log('SSE NAMED EVENT "odds_update" RECEIVED:', event.data);
+        try {
+            const update = JSON.parse(event.data);
+            console.log('SSE odds_update received:', update);
+            if (update.match_id) {
+                setMatches(prevMatches => {
+                    const updatedMatches = prevMatches.map(m =>
+                        m.match_id === update.match_id
+                            ? {
+                                ...m,
+                                home_odds: update.home_odds,
+                                away_odds: update.away_odds,
+                                last_odds_update: new Date().toISOString() // Optional: track client-side
+                              }
+                            : m
+                    );
+                    console.log('MatchList: New matches state after odds update:', updatedMatches);
+                    return updatedMatches;
+                });
+            }
+        } catch (e) {
+            console.error("Error parsing SSE odds_update data:", e);
         }
     });
 
