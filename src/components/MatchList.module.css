@@ -21,14 +21,36 @@
   margin: 0;
   font-size: 1.5em;
   color: #333;
+  /* Allow h2 to contain inline elements properly */
+  display: flex; /* or inline-flex if you prefer */
+  align-items: baseline; /* Align text nicely if font sizes differ slightly */
+}
+
+.activeStatus {
+  color: #28a745; /* Green color */
+  font-weight: bold; /* Optional: make it bold */
+  margin-left: 5px; /* Add a little space before the hyphen */
+}
+
+.otherStatus {
+  color: #6c757d; /* Grey color for 'Upcoming', 'Completed', etc. */
+  font-style: italic; /* Optional: italicize other statuses */
+  margin-left: 5px;
 }
 
 .roundSelector button {
-  padding: 8px 15px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  max-width: 160px; /* Or whatever fits your design */
+  min-width: 100px; /* Ensure it has some minimum width */
+  padding: 10px 15px; /* Adjust padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1.0em;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .roundSelector button:disabled {

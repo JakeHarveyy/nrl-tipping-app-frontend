@@ -46,12 +46,61 @@ const DashboardPage = () => {
 
   return (
       <div>
-          <h2>User Dashboard</h2>
-          <div style={{ marginBottom: '20px', padding: '10px', border: '1px solid lightblue', borderRadius: '5px', backgroundColor: '#e7f5ff' }}>
-              <h3>Welcome, {user?.username || 'User'}!</h3>
-              <p>User ID: {user?.user_id || 'N/A'}</p>
-              {/* Format bankroll */}
-              <p><strong>Current Bankroll: ${Number(bankroll).toFixed(2)}</strong></p>
+          <div style={{ textAlign: 'center' }}>
+            <h2>User Dashboard</h2>
+          </div>
+          <div
+            style={{
+              marginBottom: '20px',
+              padding: '16px',
+              border: '1px solid #b3d4fc',
+              borderRadius: '10px',
+              backgroundColor: '#f0f8ff',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            {/* Top row with Welcome + User ID */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'baseline',
+                marginBottom: '10px',
+              }}
+            >
+              <h3 style={{ margin: 0, fontWeight: 600, color: '#1a3c5d' }}>
+                Welcome, {user?.username || 'User'}!
+              </h3>
+              <p style={{ margin: 0, fontSize: '15px', color: '#666' }}>
+                User ID: {user?.user_id || 'N/A'}
+              </p>
+            </div>
+
+            {/* Bankroll box */}
+            <div
+              style={{
+                marginTop: '5px',
+                padding: '15px',
+                backgroundColor: '#dff0ff',
+                border: '2px solid #4da3ff',
+                borderRadius: '8px',
+                textAlign: 'center',
+              }}
+            >
+              <p style={{ margin: 0, fontWeight: 'bold' }}>
+                💰 <span style={{ color: '#003366' }}>Current Bankroll:</span>
+              </p>
+              <p
+                style={{
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                  color: '#007bff',
+                  margin: 0,
+                }}
+              >
+                ${Number(bankroll).toFixed(2)}
+              </p>
+            </div>
           </div>
           {/* Add Match List Component */}
           <MatchList onBetPlaced={handleBetPlaced} />

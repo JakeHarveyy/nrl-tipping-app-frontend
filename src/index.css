@@ -40,6 +40,9 @@ body {
   
   nav a:hover, nav a.active { /* Add active class styling later */
     text-decoration: underline;
+    font-weight: bold;
+    
+
   }
   
   .nav-links {
@@ -51,3 +54,65 @@ body {
       padding: 5px 10px;
       cursor: pointer;
   }
+
+  /* --- Reusable Button Styles --- */
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px; /* Or your preferred border-radius */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95em; /* Adjust as needed */
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  text-align: center;
+  text-decoration: none; /* For Link components styled as buttons */
+  display: inline-block; /* For Link components */
+  
+}
+
+.btn-primary {
+  max-width: 160px; /* Or whatever fits your design */
+  min-width: 100px; /* Ensure it has some minimum width */
+  padding: 10px 15px; /* Adjust padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.0em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #6caeff; /* Lighter blue when disabled */
+  border-color: #6caeff;
+  color: #e0e0e0;
+  cursor: not-allowed;
+  
+}
+
+.btn-secondary { /* Example for a different style, like logout */
+  max-width: 160px; /* Or whatever fits your design */
+  min-width: 100px; /* Ensure it has some minimum width */
+  padding: 10px 15px; /* Adjust padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.0em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background-color: #0056b3;
+}

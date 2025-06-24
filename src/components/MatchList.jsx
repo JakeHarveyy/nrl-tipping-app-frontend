@@ -199,16 +199,24 @@ const MatchList = ({ onBetPlaced }) => {
   return (
     <div className={styles.matchListContainer}>
       <div className={styles.roundSelector}>
-        <button onClick={handlePreviousRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number <= 1}>
+        <button onClick={handlePreviousRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number <= 1} className="btn btn-secondary">
             Prev Round
         </button>
         <h2>
-          {loading && currentDisplayRound ? `Loading Round ${currentDisplayRound.number}...` : // Show loading specific round
-           roundInfo ? `Round ${roundInfo.round_number} (${roundInfo.year}) - ${roundInfo.status}` :
-           currentDisplayRound ? `Round ${currentDisplayRound.number} (${currentDisplayRound.year}) - No Info` : // If roundInfo is null but we know the requested round
-           'Loading Round...'} {/* Default loading */}
+          {roundInfo ? (
+            <>
+              Round {roundInfo.round_number} ({roundInfo.year})
+              {/* Conditionally style the status */}
+              <span className={roundInfo.status === 'Active' ? styles.activeStatus : styles.otherStatus}>
+                {' '} - {roundInfo.status}
+              </span>
+            </>
+          ) : (
+            'Upcoming Matches'
+          )}
         </h2>
-        <button onClick={handleNextRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number >= 27}>
+
+        <button onClick={handleNextRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number >= 27} className="btn btn-secondary">
             Next Round 
         </button>
       </div>

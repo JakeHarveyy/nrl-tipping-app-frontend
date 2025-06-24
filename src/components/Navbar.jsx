@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <nav>
-      <Link to="/">NRL Tipping</Link>
+      <Link to="/">NRL Tipping 🏉</Link>
       <div className="nav-links">
         {/* Example NavLink for active styling */}
         {/* <NavLink to="/leaderboard" className={({ isActive }) => isActive ? 'active' : ''}>Leaderboard</NavLink> */}
@@ -22,7 +22,7 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <span>Welcome, {user?.username || 'User'}!</span> {/* Display username */}
-            <button onClick={logout}>Logout</button>
+            <button onClick={logout} className="btn btn-secondary">Logout</button>
           </>
         ) : (
           <>
