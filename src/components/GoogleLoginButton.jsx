@@ -1,12 +1,15 @@
 // src/components/GoogleLoginButton.jsx
 import React from 'react';
+import { API_BASE_URL } from '../services/api';
 
 const GoogleLoginButton = () => {
 
   const handleGoogleLogin = () => {
     // Redirect the user's browser to the backend endpoint that initiates Google OAuth
     // Make sure this matches the URL defined in your Flask routes for GoogleLogin
-    window.location.href = 'http://127.0.0.1:5000/api/auth/google/login';
+    const googleLoginUrl = `${API_BASE_URL}/auth/google/login`;
+    console.log(`Redirecting to Google login at: ${googleLoginUrl}`); // For debugging
+    window.location.href = googleLoginUrl;
   };
 
   return (
