@@ -10,6 +10,7 @@
 
 .roundSelector {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
@@ -19,6 +20,7 @@
 }
 
 .roundSelector h2 {
+  order: -1;
   margin: 0;
   font-size: 1.5em;
   color: #333;
@@ -71,6 +73,12 @@
     border: 1px solid #ffe5b9;
     border-radius: 4px;
 }
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Make the button container take full width */
+  }
 
 @media (max-width: 600px) {
   .roundSelector {
