@@ -34,7 +34,6 @@
 }
 
 .teamNameBlock {
-  flex: 1; /* Allow to take up available space */
   display: flex;
   align-items: center;
   flex-basis: 35%;
@@ -44,20 +43,24 @@
   justify-content: center;
 }
 
-/* .homeTeamNameBlock { text-align: left; } */
-.awayTeamNameBlock { justify-content: flex-end; }
+.homeTeamNameBlock { justify-content: flex-start; text-align: left; } 
+.awayTeamNameBlock { justify-content: flex-end; text-align: right;}
 
 .teamName {
   font-weight: bold;
-  font-size: 1.1em; /* Larger team names */
+  font-size: 1.0em; /* Larger team names */
   color: #333;
-  margin: 0 5px; /* Add some horizontal margin */
-  white-space: normal;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .teamLogo {
-  width: 30px; /* Adjust logo size */
-  height: 30px;
+  width: 35px; /* Adjust logo size */
+  height: 35px;
   object-fit: contain;
   flex-shrink: 0;
 }
