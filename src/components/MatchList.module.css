@@ -15,6 +15,7 @@
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 1px solid #eee;
+  gap: 10px;
 }
 
 .roundSelector h2 {
@@ -24,6 +25,8 @@
   /* Allow h2 to contain inline elements properly */
   display: flex; /* or inline-flex if you prefer */
   align-items: baseline; /* Align text nicely if font sizes differ slightly */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .activeStatus {
@@ -67,4 +70,25 @@
     background-color: #fff8e1;
     border: 1px solid #ffe5b9;
     border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .roundSelector {
+    flex-direction: column; /* Stack elements vertically */
+    gap: 15px; /* Increase gap for vertical stacking */
+  }
+
+  .roundSelector h2 {
+    order: -1; /* Move the 'Round X' text to the top */
+    font-size: 1.5em; /* Can make it bigger now that it has its own line */
+    margin-bottom: 5px; /* Add space below it */
+  }
+
+  /* Create a new container for the buttons to sit side-by-side below the title */
+  /* This requires a small change in the JSX */
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Make the button container take full width */
+  }
 }

@@ -199,9 +199,6 @@ const MatchList = ({ onBetPlaced }) => {
   return (
     <div className={styles.matchListContainer}>
       <div className={styles.roundSelector}>
-        <button onClick={handlePreviousRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number <= 1} className="btn btn-secondary">
-            Prev Round
-        </button>
         <h2>
           {roundInfo ? (
             <>
@@ -216,9 +213,22 @@ const MatchList = ({ onBetPlaced }) => {
           )}
         </h2>
 
-        <button onClick={handleNextRound} disabled={loading || !currentDisplayRound || currentDisplayRound.number >= 27} className="btn btn-secondary">
-            Next Round 
-        </button>
+        <div className={styles.buttonContainer}>
+          <button
+            onClick={handlePreviousRound}
+            disabled={loading || !currentDisplayRound || currentDisplayRound.number <= 1}
+            className="btn btn-primary" // Use your primary blue button style
+          >
+            Prev
+          </button>
+          <button
+            onClick={handleNextRound}
+            disabled={loading || !currentDisplayRound || currentDisplayRound.number >= 27}
+            className="btn btn-primary" // Use your primary blue button style
+          >
+            Next 
+          </button>
+        </div>
       </div>
       {/* ... rest of JSX, ensure MatchItem uses bettingAllowed correctly based on roundInfo.status */}
        {!loading && !error && matches.map((match) => (
