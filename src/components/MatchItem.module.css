@@ -35,16 +35,15 @@
 
 .teamNameBlock {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  flex-basis: 35%;
-  flex-grow: 1;
+  flex: 1;
   min-width: 0;
-  gap: 8px;
-  justify-content: center;
+  gap: 4px;
 }
 
-.homeTeamNameBlock { justify-content: flex-start; text-align: left; } 
-.awayTeamNameBlock { justify-content: flex-end; text-align: right;}
+/* .homeTeamNameBlock { justify-content: flex-start; text-align: left; } 
+.awayTeamNameBlock { justify-content: flex-end; text-align: right;} */
 
 .teamName {
   font-weight: bold;
@@ -53,14 +52,13 @@
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: center;
 }
 
 .teamLogo {
-  width: 35px; /* Adjust logo size */
-  height: 35px;
+  width: 40px; /* Adjust logo size */
+  height: 40px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -297,6 +295,15 @@
   .loginPrompt { color: #666; font-style: italic; background-color: #f8f9fa; border: 1px solid #e9ecef;}
 
 @media (min-width: 600px) {
+  .teamNameBlock {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .awayTeamNameBlock { justify-content: flex-end; text-align: right;}
+  .awayTeamNameBlock .teamLogo {order: -1;}
+  .awayTeamNameBlock .teamName {text-align: right;}
+
   .matchItem {
     padding: 20px;
   }

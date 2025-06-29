@@ -164,10 +164,8 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
         {/* Home Team Name (far left) */}
         <div className={`${styles.teamNameBlock} ${styles.homeTeamNameBlock}`}>
           <span className={styles.teamName}>{match.home_team}</span>
+          {homeLogo && <img src={homeLogo} alt={`${match.home_team} logo`} className={`${styles.teamLogo} ${styles.homeLogo}`} />}
         </div>
-
-        {/* Home Team Logo (closer to center) */}
-        {homeLogo && <img src={homeLogo} alt={`${match.home_team} logo`} className={`${styles.teamLogo} ${styles.homeLogo}`} />}
 
         {/* Center Area: Time / Scores */}
         <div className={styles.matchCenter}>
@@ -199,11 +197,12 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
         </div>
 
         {/* Away Team Logo (closer to center) */}
-        {awayLogo && <img src={awayLogo} alt={`${match.away_team} logo`} className={`${styles.teamLogo} ${styles.awayLogo}`} />}
+        
 
         {/* Away Team Name (far right) */}
         <div className={`${styles.teamNameBlock} ${styles.awayTeamNameBlock}`}>
            <span className={styles.teamName}>{match.away_team}</span>
+           {awayLogo && <img src={awayLogo} alt={`${match.away_team} logo`} className={`${styles.teamLogo} ${styles.awayLogo}`} />}
         </div>
       </div>
 
