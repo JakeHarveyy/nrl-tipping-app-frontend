@@ -21,6 +21,8 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
   // Betting is allowed if the round is active, the match hasn't started, AND the user is logged in.
   const overallBettingAllowed = isAuthenticated && bettingAllowed && !isMatchTimePassed;
 
+  
+
   // Determine current scores to display
   let displayHomeScore = match.result_home_score;
   let displayAwayScore = match.result_away_score;
