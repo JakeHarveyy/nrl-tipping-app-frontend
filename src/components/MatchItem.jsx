@@ -4,6 +4,7 @@ import api from '../services/api';
 import styles from './MatchItem.module.css'; // Optional CSS Module
 import { useAuth } from '../hooks/useAuth'; // To check if user is authenticated
 import { getTeamLogo } from '../assets/logoMap';
+import { useNavigate } from 'react-router-dom';
 
 const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInfo}) => {
   const { isAuthenticated } = useAuth(); // Check login status
@@ -13,6 +14,7 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const isMatchTimePassed = new Date(match.start_time) <= new Date();
 
@@ -86,6 +88,11 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
       return;
     }
 
+  const handleLoggedOutBetClick = () => {
+      // Navigate to the login page when a logged-out user clicks an odds button
+      navigate('/login');
+  };
+
   // End Handler Functions
 
     setError('');
@@ -143,6 +150,7 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
    } else if (match.status === 'Completed') {
        matchItemClasses += ` ${styles.completedMatch}`;
    }
+   
 
   return (
     <div className={matchItemClasses}>
@@ -202,7 +210,7 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
         <div className={styles.oddsRow}> {/* New wrapper for centering odds blocks */}
             <div className={styles.oddsBlock}> {/* Block for home team odds */}
                 <button
-                    onClick={() => handleTeamSelect(match.home_team, match.home_odds)}
+                    onClick={isAuthenticated ? () => handleTeamSelect(match.home_team, match.home_odds) : handleLoggedOutBetClick}
                     className={`${styles.oddsButton} ${selectedTeam === match.home_team ? styles.selected : ''}`}
                     disabled={!overallBettingAllowed || !match.home_odds || loading}
                 >

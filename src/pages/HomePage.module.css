@@ -1,0 +1,23 @@
+/* src/pages/HomePage.module.css */
+.homeContainer {
+  /* Add any specific layout for the home page */
+}
+
+.welcomeHeader {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa; /* A very light grey */
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.welcomeHeader h1 {
+  margin-top: 0;
+  color: #333;
+}
+
+.welcomeHeader p {
+  color: #555;
+  font-size: 1.1em;
+}
