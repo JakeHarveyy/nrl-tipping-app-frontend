@@ -1,0 +1,367 @@
+/* src/components/AIPredictionDisplay.module.css */
+.aiPredictionContainer {
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid #e8f4f8;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f8fbff 0%, #e8f4f8 100%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.probabilityBar {
+  display: flex;
+  width: 100%;
+  height: 32px;
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.probabilityBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.1) 75%);
+  background-size: 20px 20px;
+  animation: shimmer 2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+.homeProb {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  transition: all 0.3s ease;
+}
+
+.awayProb {
+  background: linear-gradient(135deg, #ff5722 0%, #d32f2f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  transition: all 0.3s ease;
+}
+
+.predictionDetails, .betRecommendation {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.95em;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.predictionDetails {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(25, 118, 210, 0.1) 100%);
+  border-left: 4px solid #2196f3;
+}
+
+.betRecommendation {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
+  border-left: 4px solid #4caf50;
+}
+
+.predictionDetails p, .betRecommendation p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.aiIcon, .betIcon {
+  font-size: 1.4em;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.confidenceBadge {
+  margin-left: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  color: white;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.high { 
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  animation: pulse 2s infinite;
+}
+
+.medium { 
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+}
+
+.low { 
+  background: linear-gradient(135deg, #9e9e9e 0%, #616161 100%);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.stake {
+  margin-left: 10px;
+  font-style: italic;
+  color: #388e3c;
+  font-weight: 600;
+  background-color: rgba(76, 175, 80, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.aiHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.aiTitle {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: #1976d2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.infoButton {
+  background: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+  color: #1976d2;
+}
+
+.infoButton:hover {
+  background: rgba(33, 150, 243, 0.2);
+  border-color: rgba(33, 150, 243, 0.5);
+  transform: scale(1.1);
+}
+
+.favored {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5); }
+  to { box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.3); }
+}
+
+.pickIcon {
+  font-size: 1.2em;
+}
+
+.predictedWinner {
+  color: #1976d2;
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.recommendedTeam {
+  color: #388e3c;
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.closeMatchBadge {
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: #ff9800;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.noBetRecommendation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.9em;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(245, 124, 0, 0.1) 100%);
+  border-left: 4px solid #ff9800;
+}
+
+.noBetRecommendation p {
+  margin: 0;
+  font-weight: 500;
+  color: #f57c00;
+}
+
+.warningIcon {
+  font-size: 1.2em;
+}
+
+/* Info icon and prediction content styles */
+.predictionContent {
+  flex: 1;
+}
+
+/* Add hover effects */
+.aiPredictionContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.probabilityBar:hover .homeProb,
+.probabilityBar:hover .awayProb {
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .aiPredictionContainer {
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 10px;
+  }
+  
+  .probabilityBar {
+    height: 32px;
+    font-size: 0.85em;
+    margin-bottom: 10px;
+  }
+  
+  .predictionDetails,
+  .betRecommendation,
+  .noBetRecommendation {
+    font-size: 0.9em;
+    padding: 10px 12px;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  
+  .aiHeader {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+  }
+  
+  .aiTitle {
+    font-size: 0.85em;
+  }
+  
+  .infoButton {
+    width: 26px;
+    height: 26px;
+    font-size: 0.85em;
+  }
+  
+  .confidenceBadge {
+    font-size: 0.75em;
+    padding: 3px 8px;
+    margin-left: 8px;
+  }
+  
+  .stake {
+    font-size: 0.8em;
+    padding: 2px 6px;
+    margin-left: 8px;
+  }
+  
+  .predictedWinner,
+  .recommendedTeam {
+    font-size: 1em;
+  }
+  
+  .aiIcon,
+  .betIcon,
+  .pickIcon {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .aiPredictionContainer {
+    margin: 6px 0;
+    padding: 10px;
+  }
+  
+  .probabilityBar {
+    height: 30px;
+    font-size: 0.8em;
+  }
+  
+  .predictionDetails,
+  .betRecommendation,
+  .noBetRecommendation {
+    font-size: 0.85em;
+    padding: 8px 10px;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .aiHeader {
+    gap: 6px;
+  }
+  
+  .aiTitle {
+    font-size: 0.8em;
+  }
+  
+  .infoButton {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8em;
+  }
+  
+  .confidenceBadge {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    margin-left: 6px;
+    display: block;
+    margin-top: 4px;
+    width: fit-content;
+  }
+  
+  .stake {
+    font-size: 0.75em;
+    padding: 2px 6px;
+    margin-left: 0;
+    margin-top: 4px;
+    display: block;
+    width: fit-content;
+  }
+}

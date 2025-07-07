@@ -1,11 +1,35 @@
 /* src/components/MatchItem.module.css */
 .matchItem {
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 12px; /* Adjust padding */
-  margin-bottom: 15px;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 8px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.matchItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.matchItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2196f3, #4caf50, #ff9800);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.matchItem:hover::before {
+  opacity: 1;
 }
   
   /* Top section layout */
@@ -18,19 +42,24 @@
   
 .matchDateHeader {
   text-align: center;
-  font-size: 0.75em;
+  font-size: 0.8em;
   color: #666;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
 }
 
 .matchDetailsRow {
   display: flex;
-  justify-content: space-between; /* Distributes space */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; /* Space before odds */
-  gap: 5px;
+  margin-bottom: 20px;
+  gap: 8px;
 }
 
 .teamNameBlock {
@@ -39,74 +68,105 @@
   align-items: center;
   flex: 1;
   min-width: 0;
-  gap: 4px;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-/* .homeTeamNameBlock { justify-content: flex-start; text-align: left; } 
-.awayTeamNameBlock { justify-content: flex-end; text-align: right;} */
+.teamNameBlock:hover {
+  background-color: rgba(33, 150, 243, 0.05);
+  transform: scale(1.02);
+}
 
 .teamName {
-  font-weight: bold;
-  font-size: 1.0em; /* Larger team names */
+  font-weight: 700;
+  font-size: 1.1em;
   color: #333;
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 0;
   white-space: normal;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .teamLogo {
-  width: 40px; /* Adjust logo size */
-  height: 40px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
   flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: all 0.3s ease;
 }
 
-.homeLogo { margin-right: 15px; } /* Space between home logo and center */
-.awayLogo { margin-left: 15px; } /* Space between away logo and center */
+.teamLogo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.homeLogo { margin-right: 15px; }
+.awayLogo { margin-left: 15px; }
   
 .matchCenter {
   display: flex;
-  flex-direction: column; /* Stack time/scores above status text */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   flex-shrink: 0;
-  padding:0 5px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 2px solid #dee2e6;
+  min-width: 120px;
 }
 
 .kickoffTime {
-  font-size: 1.3em;
-  font-weight: bold;
+  font-size: 1.4em;
+  font-weight: 700;
   color: #333;
   line-height: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .score {
-  font-size: 1.8em;
-  font-weight: bold;
+  font-size: 2.0em;
+  font-weight: 800;
   color: #111;
   line-height: 1;
-  /* margin: 0 5px; Remove if using flex gap in .matchCenter for live scores*/
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .winningScore {
-    color: #089131; 
-    
+  color: #28a745;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
 }
 
 .centerStatusText {
-  font-size: 0.7em; /* Smaller for FULL TIME/LIVE */
-  font-weight: 500;
-  color: #555;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #666;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   line-height: 1;
-  margin-top: 2px; /* Space below score */
+  margin-top: 4px;
+  padding: 4px 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
 }
-.liveMatch .centerStatusText { /* If .matchItem has .liveMatch */
-    color: red;
-    font-weight: bold;
+
+.liveMatch .centerStatusText {
+  color: #fff;
+  background-color: #dc3545;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
 /* Override .matchCenter for live/completed scores to be inline */
@@ -119,71 +179,106 @@
 
 .liveScoreDisplay {
   display: flex;
-  flex-direction: column; /* Lay out scores and status horizontally */
-  align-items: center; /* Vertically align items if they have different heights */
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 8px; /* Adds space between home score, status, and away score */
-  width: 100%; /* Allow it to take the width of the matchCenter area */
+  gap: 8px;
+  width: 100%;
 }
 
 .scoreSeparator {
-  font-size: 1.5em; /* Adjust size of hyphen if needed */
-  font-weight: bold;
-  color: #333; /* Color for the hyphen */
-  margin: 0 2px; /* Slight horizontal margin if gap isn't enough */
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #666;
+  margin: 0 8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .scoreRow {
   display: flex;
-  flex-direction: row; /* Scores and separator are horizontal */
-  align-items: center; /* Vertically align scores and hyphen */
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  gap: 8px; /* Space around the hyphen */
+  gap: 12px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
   /* Odds area layout */
   /* Odds Area */
 .oddsRow {
   display: flex;
-  justify-content: space-around; /* Distributes the two odds blocks */
-  align-items: flex-start; /* Align items to the top of the row */
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #f0f0f0;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+  gap: 15px;
 }
 
 .oddsBlock {
-  flex: 1; /* Each odds block takes up half the available space (after separator) */
+  flex: 1;
   display: flex;
-  justify-content: center; /* Center the button within this block */
-  padding: 0 5px; /* Some padding for the block */
+  justify-content: center;
+  padding: 0 8px;
 }
 
 .oddsButton {
-  /* width: 100%; */ /* Let it take width of its content or set a specific width */
-  max-width: 160px; /* Or whatever fits your design */
-  min-width: 100px; /* Ensure it has some minimum width */
-  padding: 10px 15px; /* Adjust padding */
-  background-color: #007bff;
+  max-width: 180px;
+  min-width: 120px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1.0em;
+  font-weight: 700;
+  font-size: 1.1em;
   text-align: center;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.oddsButton:hover { background-color: #0056b3; }
-.oddsButton.selected { opacity: 0.8; border: 2px solid #28a745; background-color: #28a745;}
+.oddsButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.oddsButton:hover::before {
+  left: 100%;
+}
+
+.oddsButton:hover { 
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+}
+
+.oddsButton.selected { 
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+  transform: scale(1.05);
+}
+
 .oddsButton:disabled {
-      background-color: #e9ecef;
-      border-color: #ced4da;
-      color: #6c757d;
-      cursor: not-allowed;
-      opacity: 0.7;
-  }
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
 
 .oddsSeparator {
     flex-grow: 1; /* Takes up space in the middle */
@@ -251,22 +346,50 @@
     font-size: 0.9em;
 }
 
-/* style for live/completed matches */
+/* Live and completed match styling */
 .liveMatch {
-  border: 2px solid red !important; /* Emphasize with red border */
-  box-shadow: 0 0 10px rgba(255,0,0,0.3);
+  border: 2px solid #dc3545 !important;
+  box-shadow: 0 0 20px rgba(220, 53, 69, 0.3);
+  position: relative;
 }
 
-.finalScore { /* Style for final score when match is completed */
-    color: #333; /* Or a different color to distinguish from live */
-    font-size: 1.3em; /* Keep it prominent */
-    font-weight: bold;
+.liveMatch::before {
+  background: linear-gradient(90deg, #dc3545, #ff6b6b, #dc3545);
+  opacity: 1;
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.liveMatch .matchCenter {
+  background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+  border-color: #dc3545;
 }
 
 .completedMatch {
-  opacity: 0.7; /* Make fade a bit more noticeable */
-  background-color: #f0f0f0; /* Light grey background */
-  border-left-color: #6c757d; /* Keep consistent with .void or similar */
+  opacity: 0.8;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-color: #6c757d;
+}
+
+.completedMatch::before {
+  background: linear-gradient(90deg, #6c757d, #adb5bd, #6c757d);
+  opacity: 0.7;
+}
+
+.completedMatch .matchCenter {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-color: #6c757d;
+}
+
+.finalScore {
+  color: #333;
+  font-size: 1.8em;
+  font-weight: 800;
 }
 
 /* Match Meta (Date and Status) */
@@ -297,31 +420,111 @@
 @media (min-width: 600px) {
   .teamNameBlock {
     flex-direction: row;
-    gap: 8px;
+    gap: 12px;
   }
 
-  .awayTeamNameBlock { justify-content: flex-end; text-align: right;}
-  .awayTeamNameBlock .teamLogo {order: -1;}
-  .awayTeamNameBlock .teamName {text-align: right;}
+  .awayTeamNameBlock { 
+    justify-content: center; 
+    text-align: center;
+  }
+  
+  .awayTeamNameBlock .teamLogo {
+    order: -1;
+  }
+  
+  .awayTeamNameBlock .teamName {
+    text-align: center;
+  }
 
   .matchItem {
-    padding: 20px;
+    padding: 24px;
   }
 
   .teamName {
-    font-size: 1.5em; /* Increase font size for desktop */
+    font-size: 1.6em;
   }
 
   .teamLogo {
-    width: 80px; /* Increase logo size for desktop */
-    height: 80px;
+    width: 85px;
+    height: 85px;
   }
   
   .kickoffTime {
-    font-size: 1.3em;
+    font-size: 1.5em;
   }
 
-  .scoreDisplay {
-    font-size: 1.8em;
+  .score {
+    font-size: 2.2em;
   }
+
+  .matchCenter {
+    min-width: 140px;
+    padding: 16px;
+  }
+
+  .oddsButton {
+    max-width: 200px;
+    min-width: 140px;
+    padding: 14px 24px;
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 600px) {
+  .matchItem {
+    padding: 12px;
+  }
+
+  .teamName {
+    font-size: 0.9em;
+  }
+
+  .teamLogo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .matchCenter {
+    min-width: 100px;
+    padding: 8px;
+  }
+
+  .kickoffTime {
+    font-size: 1.1em;
+  }
+
+  .score {
+    font-size: 1.6em;
+  }
+
+  .oddsButton {
+    max-width: 140px;
+    min-width: 100px;
+    padding: 10px 16px;
+    font-size: 1.0em;
+  }
+
+  .matchDateHeader {
+    font-size: 0.75em;
+    padding: 6px;
+  }
+}
+
+/* Winning team styling */
+.winningTeam {
+  color: #28a745 !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 4px rgba(40, 167, 69, 0.3) !important;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-5px); }
+  60% { transform: translateY(-3px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }

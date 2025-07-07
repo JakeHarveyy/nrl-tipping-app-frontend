@@ -1,72 +1,639 @@
 /* src/pages/LeaderboardPage.module.css */
 .leaderboardContainer {
-    padding: 20px;
-    max-width: 700px; /* Adjust width as needed */
-    margin: 20px auto;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 20px auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h2 {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading p {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Error State */
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  color: #dc3545;
+}
+
+.error h3 {
+  margin-bottom: 15px;
+  color: #dc3545;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.emptyState h3 {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.emptyState p {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Podium Section */
+.podiumSection {
+  margin-bottom: 50px;
+}
+
+.podiumTitle {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: #495057;
+}
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.podiumPosition {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 15px;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e9ecef;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 180px;
+}
+
+.podiumPosition:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.position1 {
+  background: linear-gradient(135deg, #ffd700, #ffed4a);
+  border-color: #ffd700;
+  order: 2;
+  transform: scale(1.1);
+}
+
+.position2 {
+  background: linear-gradient(135deg, #c0c0c0, #e2e8f0);
+  border-color: #c0c0c0;
+  order: 1;
+}
+
+.position3 {
+  background: linear-gradient(135deg, #cd7f32, #f6ad55);
+  border-color: #cd7f32;
+  order: 3;
+}
+
+.podiumRank {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.podiumUsername {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.podiumBankroll {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #28a745;
+  font-family: 'Courier New', monospace;
+}
+
+/* Table Section */
+.tableSection {
+  margin-bottom: 40px;
+}
+
+.tableTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #495057;
+  text-align: center;
+}
+
+.tableWrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboardTable thead {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.leaderboardTable th {
+  padding: 18px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.leaderboardTable td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 1rem;
+}
+
+.leaderboardTable tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.leaderboardTable tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.leaderboardTable tbody tr:hover {
+  background-color: #e3f2fd;
+}
+
+.topThree {
+  background: linear-gradient(90deg, #fff3cd, #ffffff) !important;
+  border-left: 4px solid #ffc107;
+}
+
+.topThree:hover {
+  background: linear-gradient(90deg, #ffeaa7, #f8f9fa) !important;
+}
+
+.currentUserRow {
+  background: linear-gradient(90deg, #d4edda, #ffffff) !important;
+  border-left: 4px solid #28a745;
+  font-weight: 600;
+}
+
+.currentUserRow:hover {
+  background: linear-gradient(90deg, #c3e6cb, #f8f9fa) !important;
+}
+
+.currentUser {
+  border: 3px solid #28a745 !important;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+}
+
+.rankCell {
+  text-align: center;
+  width: 80px;
+}
+
+.rankDisplay {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.usernameCell {
+  width: 60%;
+}
+
+.username {
+  font-weight: 500;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bankrollCell {
+  text-align: right;
+  width: 150px;
+}
+
+.bankrollAmount {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.youBadge {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Mobile Card Layout (Alternative to table) */
+.mobileCardList {
+  display: none;
+}
+
+.mobileCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobileCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mobileCard.currentUserCard {
+  background: linear-gradient(90deg, #d4edda, #ffffff);
+  border-left: 4px solid #28a745;
+}
+
+.mobileCard.topThreeCard {
+  background: linear-gradient(90deg, #fff3cd, #ffffff);
+  border-left: 4px solid #ffc107;
+}
+
+.mobileCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobileCardRank {
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-width: 35px;
+  text-align: center;
+}
+
+.mobileCardUsername {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobileCardRight {
+  text-align: right;
+}
+
+.mobileCardBankroll {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #28a745;
+}
+
+/* Stats Section */
+.statsSection {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  padding: 25px 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  min-width: 150px;
+  transition: transform 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.statValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .leaderboardContainer {
+    padding: 10px;
+    margin: 10px auto;
   }
   
-  .leaderboardContainer h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
+  .header h2 {
+    font-size: 2rem;
   }
   
-  .loading,
-  .error {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
+  .subtitle {
+    font-size: 1rem;
   }
   
-  .error {
-    color: red;
+  /* Mobile Podium */
+  .podiumSection {
+    margin-bottom: 30px;
+  }
+  
+  .podiumTitle {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .podium {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .podiumPosition {
+    min-width: 280px;
+    max-width: 320px;
+    width: 100%;
+    padding: 20px 15px;
+  }
+  
+  .position1 {
+    order: 1;
+    transform: none;
+  }
+  
+  .position2 {
+    order: 2;
+  }
+  
+  .position3 {
+    order: 3;
+  }
+  
+  .podiumRank {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .podiumUsername {
+    font-size: 1.1rem;
+  }
+  
+  .podiumBankroll {
+    font-size: 1rem;
+  }
+  
+  /* Mobile Table - Hide on very small screens */
+  .tableTitle {
+    font-size: 1.3rem;
+  }
+  
+  .tableWrapper {
+    border-radius: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   .leaderboardTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .leaderboardTable thead {
-    background-color: #007bff; /* Header background */
-    color: white;
+    min-width: 320px;
   }
   
   .leaderboardTable th,
   .leaderboardTable td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 12px 8px;
+    font-size: 0.9rem;
   }
   
   .leaderboardTable th {
-      font-weight: bold;
+    font-size: 0.95rem;
   }
   
-  .leaderboardTable tbody tr:nth-child(even) {
-    background-color: #f8f9fa; /* Zebra striping */
+  .rankCell {
+    width: 50px;
   }
   
-  .leaderboardTable tbody tr:hover {
-    background-color: #e9ecef; /* Hover effect */
+  .rankDisplay {
+    font-size: 1rem;
   }
   
-  /* Align rank and bankroll */
-  .leaderboardTable td:first-child,
-  .leaderboardTable td:last-child {
-    text-align: right;
-    font-family: monospace; /* Optional: Monospace for numbers */
-  }
-  .leaderboardTable th:first-child,
-  .leaderboardTable th:last-child {
-     text-align: right;
+  .usernameCell {
+    width: auto;
   }
   
-  .leaderboardContainer p {
-      text-align: center;
-      color: #666;
-      font-style: italic;
-      margin-top: 30px;
+  .username {
+    font-size: 0.9rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
+  
+  .bankrollCell {
+    width: 100px;
+  }
+  
+  .bankrollAmount {
+    font-size: 0.85rem;
+  }
+  
+  .youBadge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+  
+  /* Mobile Stats */
+  .statsSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .statCard {
+    padding: 20px 25px;
+    min-width: 120px;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .statValue {
+    font-size: 1.8rem;
+  }
+}
+
+/* Very small devices - Switch to card layout */
+@media (max-width: 480px) {
+  .leaderboardContainer {
+    padding: 8px;
+  }
+  
+  .header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .podiumPosition {
+    min-width: 260px;
+    padding: 15px 12px;
+  }
+  
+  .podiumRank {
+    font-size: 1.8rem;
+  }
+  
+  .podiumUsername {
+    font-size: 1rem;
+  }
+  
+  .podiumBankroll {
+    font-size: 0.9rem;
+  }
+  
+  /* Hide table on very small screens */
+  .tableWrapper {
+    display: none;
+  }
+  
+  /* Show mobile card layout */
+  .mobileCardList {
+    display: block;
+  }
+  
+  .statCard {
+    padding: 15px 20px;
+  }
+  
+  .statValue {
+    font-size: 1.6rem;
+  }
+}
+
+/* Extra small devices (phones, 375px and down) */
+@media (max-width: 375px) {
+  .podiumPosition {
+    min-width: 240px;
+    padding: 12px 10px;
+  }
+  
+  .podiumRank {
+    font-size: 1.6rem;
+  }
+  
+  .podiumUsername {
+    font-size: 0.95rem;
+  }
+  
+  .podiumBankroll {
+    font-size: 0.85rem;
+  }
+  
+  .mobileCard {
+    padding: 12px;
+  }
+  
+  .mobileCardUsername {
+    font-size: 0.9rem;
+  }
+  
+  .mobileCardBankroll {
+    font-size: 0.9rem;
+  }
+  
+  .youBadge {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+  }
+}
+
+/* Large tablets and small desktops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .leaderboardContainer {
+    padding: 20px;
+    max-width: 900px;
+  }
+  
+  .podium {
+    gap: 15px;
+  }
+  
+  .podiumPosition {
+    min-width: 160px;
+  }
+  
+  .position1 {
+    transform: scale(1.05);
+  }
+}

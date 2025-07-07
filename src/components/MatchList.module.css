@@ -100,3 +100,31 @@
     width: 100%; /* Make the button container take full width */
   }
 }
+
+/* Container for match item and AI prediction */
+.matchContainerWithPrediction {
+  margin-bottom: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.matchContainerWithPrediction:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.matchContainerWithPrediction .matchItem {
+  margin-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.matchContainerWithPrediction .aiPredictionContainer {
+  margin-top: 0;
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid #e8f4f8;
+}

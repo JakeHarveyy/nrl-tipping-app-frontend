@@ -2,12 +2,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import MatchItem from './MatchItem';
+import AIPredictionDisplay from './AIPredictionDisplay'; 
 import styles from './MatchList.module.css';
 
 const MatchList = ({ onBetPlaced }) => {
   const [matches, setMatches] = useState([]);
-  const [roundInfo, setRoundInfo] = useState(null); // To store {round_number, year, status}
-  const [currentDisplayRound, setCurrentDisplayRound] = useState(null); // { number, year }
+  const [roundInfo, setRoundInfo] = useState(null); 
+  const [currentDisplayRound, setCurrentDisplayRound] = useState(null); 
+  const [aiPredictions, setAIPredictions] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [liveScores, setLiveScores] = useState({});
@@ -196,6 +198,54 @@ const MatchList = ({ onBetPlaced }) => {
     }
   };
 
+  const fetchMatchesAndPredictions = useCallback(async (roundNumber, year) => {
+    setLoading(true);
+    setError('');
+    // Reset predictions for the new round
+    setAIPredictions({});
+
+    let url = '/matches';
+    const params = {};
+    if (roundNumber && year) {
+        params.round_number = roundNumber;
+        params.year = year;
+    }
+
+    try {
+        const matchResponse = await api.get(url, { params });
+        const newMatches = matchResponse.data.matches || [];
+        const newRoundInfo = matchResponse.data.round_info || null;
+
+        setMatches(newMatches);
+        setRoundInfo(newRoundInfo);
+        // ... set current display round logic ...
+
+        // If we found a valid round, fetch its AI predictions
+        if (newRoundInfo && newRoundInfo.round_number && newRoundInfo.year) {
+            try {
+                const predictionResponse = await api.get(`/ai-predictions/year/${newRoundInfo.year}/round/${newRoundInfo.round_number}`);
+                setAIPredictions(predictionResponse.data.predictions || {});
+                console.log("Fetched AI Predictions:", predictionResponse.data.predictions);
+            } catch (predErr) {
+                console.error("Could not fetch AI predictions for round:", predErr);
+                // Don't show an error for this, just proceed without predictions
+            }
+        }
+    } catch (matchErr) {
+        console.error("Error fetching matches:", matchErr);
+        setError(matchErr.response?.data?.message || 'Could not load matches.');
+        setMatches([]);
+        setRoundInfo(null);
+    } finally {
+        setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Initial fetch, pass null to let backend decide the round
+    fetchMatchesAndPredictions(null, null);
+  }, [fetchMatchesAndPredictions]);
+
   return (
     <div className={styles.matchListContainer}>
       <div className={styles.roundSelector}>
@@ -232,6 +282,7 @@ const MatchList = ({ onBetPlaced }) => {
       </div>
       {/* ... rest of JSX, ensure MatchItem uses bettingAllowed correctly based on roundInfo.status */}
        {!loading && !error && matches.map((match) => (
+          <div key={match.match_id} className={styles.matchContainerWithPrediction}>
             <MatchItem
               key={match.match_id}
               match={match}
@@ -239,6 +290,11 @@ const MatchList = ({ onBetPlaced }) => {
               onBetPlaced={onBetPlaced}
               bettingAllowed={roundInfo?.status === 'Active'} // Pass based on roundInfo
             />
+            <AIPredictionDisplay 
+              key={`ai-prediction-${match.match_id}`}
+              prediction={aiPredictions[match.match_id]} 
+            />
+          </div>
         ))}
     </div>
   );

@@ -12,6 +12,7 @@ import GoogleCallbackPage from './pages/GoogleCallbackPage.jsx';
 import MyBetsPage from './pages/MyBetsPage.jsx';
 import ResultsPage from './pages/ResultsPage.jsx';
 import LeaderboardPage from './pages/LeaderboardPage.jsx';
+import AIInfoPage from './pages/AIInfoPage.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="register" element={<RegisterPage />} />
         <Route path="results" element={<ResultsPage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
+        <Route path="ai-info" element={<AIInfoPage />} />
         {/* Add other public routes like leaderboard here */}
 
         {/* Protected Routes */}
