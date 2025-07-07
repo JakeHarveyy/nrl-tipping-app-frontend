@@ -1,87 +1,156 @@
 /* src/pages/ResultsPage.module.css */
 .resultsContainer {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.resultsContainer h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  color: #333;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+}
+
+.error {
+  color: red;
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resultItem {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.resultItem:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.matchHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.matchScore {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.matchScore span {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.matchScore span:first-child {
+  text-align: left;
+}
+
+.matchScore span:last-child {
+  text-align: right;
+}
+
+.score {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 0 20px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.winner {
+  font-weight: bold;
+  color: #00aa0e;
+}
+
+.winnerInfo {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Wide screens optimizations */
+@media (min-width: 1200px) {
+  .resultsContainer {
+    padding: 40px;
   }
   
   .resultsContainer h2 {
-      text-align: center;
-      margin-bottom: 30px;
-  }
-  
-  .loading,
-  .error {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
-  }
-  
-  .error {
-    color: red;
-  }
-  
-  .resultsList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
   }
   
   .resultItem {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
   }
   
   .matchHeader {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9em;
-    color: #555;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
   }
   
   .matchScore {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    font-size: 1.4em;
+    margin-bottom: 20px;
   }
-  
-  .matchScore span {
-      flex: 1; /* Allow team names to take space */
-      text-align: center;
-  }
-  .matchScore span:first-child {
-      text-align: left;
-  }
-  .matchScore span:last-child {
-      text-align: right;
-  }
-  
   
   .score {
-    font-size: 1.4em;
-    font-weight: bold;
-    margin: 0 15px;
-    color: #333;
-    white-space: nowrap; /* Prevent score breaking line */
-  }
-  
-  .winner {
-    font-weight: bold;
-    color: #00aa0e; /* Highlight winner */
+    font-size: 1.8em;
+    margin: 0 25px;
   }
   
   .winnerInfo {
-      text-align: center;
-      font-size: 0.95em;
-      margin-top: 8px;
-      color: #444;
+    font-size: 1.1rem;
+    margin-top: 15px;
   }
+}
+
+/* Extra wide screens */
+@media (min-width: 1600px) {
+  .resultsContainer {
+    padding: 60px;
+  }
+  
+  .resultItem {
+    padding: 40px;
+  }
+  
+  .matchScore {
+    font-size: 1.5em;
+  }
+  
+  .score {
+    font-size: 2em;
+    margin: 0 30px;
+  }
+}

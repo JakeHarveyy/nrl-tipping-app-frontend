@@ -1,36 +1,77 @@
 /* src/pages/MyBetsPage.module.css */
 .myBetsContainer {
-    padding: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.myBetsContainer h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  color: #333;
+}
+
+.betsSection {
+  margin-bottom: 40px;
+}
+
+.betsSection h3 {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+}
+
+.error {
+  color: red;
+}
+
+.betsSection p {
+  color: #666;
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Wide screens optimizations */
+@media (min-width: 1200px) {
+  .myBetsContainer {
+    padding: 40px;
   }
   
   .myBetsContainer h2 {
-      text-align: center;
-      margin-bottom: 30px;
-  }
-  
-  .betsSection {
+    font-size: 2.5rem;
     margin-bottom: 40px;
   }
   
+  .betsSection {
+    margin-bottom: 50px;
+  }
+  
   .betsSection h3 {
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .loading,
-  .error {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
-  }
-  
-  .error {
-    color: red;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
   }
   
   .betsSection p {
-      color: #666;
-      font-style: italic;
+    font-size: 1.2rem;
+    padding: 30px;
   }
+}
+
+/* Extra wide screens */
+@media (min-width: 1600px) {
+  .myBetsContainer {
+    padding: 60px;
+  }
+}

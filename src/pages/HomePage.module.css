@@ -1,23 +1,50 @@
 /* src/pages/HomePage.module.css */
 .homeContainer {
-  /* Add any specific layout for the home page */
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .welcomeHeader {
   text-align: center;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #f8f9fa; /* A very light grey */
-  border-radius: 8px;
+  padding: 40px 20px;
+  margin-bottom: 40px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
   border: 1px solid #dee2e6;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .welcomeHeader h1 {
   margin-top: 0;
   color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
 }
 
 .welcomeHeader p {
   color: #555;
-  font-size: 1.1em;
+  font-size: 1.2em;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Wide screen optimizations */
+@media (min-width: 1200px) {
+  .homeContainer {
+    padding: 0 40px;
+  }
+  
+  .welcomeHeader {
+    padding: 60px 40px;
+  }
+  
+  .welcomeHeader h1 {
+    font-size: 3rem;
+  }
+  
+  .welcomeHeader p {
+    font-size: 1.3em;
+  }
 }

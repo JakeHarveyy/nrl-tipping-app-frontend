@@ -14,9 +14,9 @@ body {
   
   .main-content {
     flex-grow: 1;
-    padding: 20px; /* Add some padding around page content */
-    max-width: 1200px; /* Optional: Limit content width */
-    margin: 0 auto; /* Optional: Center content */
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
   }
