@@ -116,3 +116,31 @@ body {
 .btn-secondary:hover {
   background-color: #0056b3;
 }
+
+/* Wide screens optimizations */
+@media (min-width: 1200px) {
+  .main-content {
+    padding: 40px;
+    max-width: 1400px;
+  }
+  
+  .app-layout {
+    min-height: 100vh;
+  }
+}
+
+/* Extra wide screens */
+@media (min-width: 1600px) {
+  .main-content {
+    padding: 60px;
+    max-width: 1600px;
+  }
+}
+
+/* Ultra wide screens */
+@media (min-width: 1920px) {
+  .main-content {
+    max-width: 1800px;
+    padding: 80px;
+  }
+}

@@ -365,3 +365,82 @@
     width: fit-content;
   }
 }
+
+/* Wide screens optimizations */
+@media (min-width: 1200px) {
+  .aiPredictionContainer {
+    padding: 18px;
+    margin-top: 20px;
+  }
+  
+  .probabilityBar {
+    height: 40px;
+    font-size: 1rem;
+    margin-bottom: 18px;
+  }
+  
+  .predictionDetails {
+    padding: 20px;
+  }
+  
+  .predictionTitle {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+  
+  .confidenceBadge {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    margin-left: 12px;
+  }
+  
+  .stake {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    margin-top: 8px;
+  }
+  
+  .predictionText {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+}
+
+/* Extra wide screens */
+@media (min-width: 1600px) {
+  .aiPredictionContainer {
+    padding: 24px;
+    margin-top: 25px;
+  }
+  
+  .probabilityBar {
+    height: 45px;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+  }
+  
+  .predictionDetails {
+    padding: 25px;
+  }
+  
+  .predictionTitle {
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+  }
+  
+  .confidenceBadge {
+    font-size: 1rem;
+    padding: 8px 16px;
+    margin-left: 16px;
+  }
+  
+  .stake {
+    font-size: 1rem;
+    padding: 8px 16px;
+    margin-top: 10px;
+  }
+  
+  .predictionText {
+    font-size: 1.2rem;
+  }
+}
