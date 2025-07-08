@@ -1,7 +1,8 @@
 // src/components/RegisterForm.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api'; // Your Axios instance
+import api from '../services/api';
+import styles from './RegisterForm.module.css';
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
@@ -61,95 +62,71 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      {error && <p style={errorStyle}>{error}</p>}
-      {success && <p style={successStyle}>{success}</p>}
-      <div style={inputGroupStyle}>
-        <label htmlFor="reg-username">Username:</label>
+    <form onSubmit={handleSubmit} className={styles.registerForm}>
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      {success && <div className={styles.successMessage}>{success}</div>}
+      
+      <div className={styles.inputGroup}>
+        <label htmlFor="reg-username" className={styles.label}>Username</label>
         <input
           type="text"
           id="reg-username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={inputStyle}
+          className={styles.input}
+          placeholder="Enter your username"
+          autoComplete="username"
         />
       </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="reg-email">Email:</label>
+      
+      <div className={styles.inputGroup}>
+        <label htmlFor="reg-email" className={styles.label}>Email</label>
         <input
           type="email"
           id="reg-email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={inputStyle}
+          className={styles.input}
+          placeholder="Enter your email"
+          autoComplete="email"
         />
       </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="reg-password">Password:</label>
+      
+      <div className={styles.inputGroup}>
+        <label htmlFor="reg-password" className={styles.label}>Password</label>
         <input
           type="password"
           id="reg-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          minLength="6" // Basic HTML5 validation
-          style={inputStyle}
+          minLength="6"
+          className={styles.input}
+          placeholder="Enter your password (min 6 characters)"
+          autoComplete="new-password"
         />
       </div>
-      <button type="submit" disabled={loading || success} style={buttonStyle}>
-        {loading ? 'Registering...' : 'Register'}
+      
+      <button 
+        type="submit" 
+        disabled={loading || success || !username || !email || !password} 
+        className={`${styles.submitButton} ${loading ? styles.loading : ''}`}
+      >
+        {loading ? (
+          <>
+            <span className={styles.spinner}></span>
+            Creating Account...
+          </>
+        ) : success ? (
+          'Account Created!'
+        ) : (
+          'Create Account'
+        )}
       </button>
     </form>
   );
 };
-
-// Reusing some basic inline styles (consider moving to CSS/Modules later)
-const formStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  maxWidth: '300px',
-  margin: '20px auto',
-  padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-};
-
-const inputGroupStyle = {
-  marginBottom: '15px',
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const inputStyle = {
-  padding: '8px',
-  marginTop: '5px',
-  border: '1px solid #ccc',
-  borderRadius: '3px',
-};
-
-const buttonStyle = {
-  padding: '10px 15px',
-  backgroundColor: '#28a745', // Green for register
-  color: 'white',
-  border: 'none',
-  borderRadius: '3px',
-  cursor: 'pointer',
-};
-
-const errorStyle = {
-    color: 'red',
-    marginBottom: '10px',
-    textAlign: 'center',
-    fontSize: '0.9em',
-}
-
-const successStyle = {
-    color: 'green',
-    marginBottom: '10px',
-    textAlign: 'center',
-    fontSize: '0.9em',
-}
 
 export default RegisterForm;

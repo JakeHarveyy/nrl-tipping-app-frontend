@@ -80,25 +80,43 @@ const DashboardPage = () => {
             <div
               style={{
                 marginTop: '5px',
-                padding: '15px',
-                backgroundColor: '#dff0ff',
+                padding: '20px',
+                background: 'linear-gradient(135deg, #dff0ff 0%, #b3e0ff 100%)',
                 border: '2px solid #4da3ff',
-                borderRadius: '8px',
+                borderRadius: '12px',
                 textAlign: 'center',
+                boxShadow: '0 4px 12px rgba(77, 163, 255, 0.15)',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                cursor: 'default',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 20px rgba(77, 163, 255, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 12px rgba(77, 163, 255, 0.15)';
               }}
             >
-              <p style={{ margin: 0, fontWeight: 'bold' }}>
-                💰 <span style={{ color: '#003366' }}>Current Bankroll:</span>
+              <p style={{ 
+                margin: '0 0 8px 0', 
+                fontWeight: 'bold',
+                fontSize: '16px',
+                letterSpacing: '0.5px'
+              }}>
+                💰 <span style={{ color: '#003366' }}>Current Bankroll</span>
               </p>
               <p
                 style={{
-                  fontSize: '28px',
-                  fontWeight: 'bold',
+                  fontSize: '32px',
+                  fontWeight: '700',
                   color: '#007bff',
                   margin: 0,
+                  textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                  fontFamily: '"Segoe UI", system-ui, sans-serif',
                 }}
               >
-                ${Number(bankroll).toFixed(2)}
+                ${Number(bankroll).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
           </div>

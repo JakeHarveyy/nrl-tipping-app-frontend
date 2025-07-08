@@ -163,9 +163,7 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
       <div className={styles.matchDetailsRow}> {/* This is our main flex container for top part */}
         {/* Home Team Name (far left) */}
         <div className={`${styles.teamNameBlock} ${styles.homeTeamNameBlock}`}>
-          <span className={`${styles.teamName} ${match.winner === match.home_team ? styles.winningTeam : ''}`}>
-            {match.home_team}
-          </span>
+          <span className={styles.teamName}>{match.home_team}</span>
           {homeLogo && <img src={homeLogo} alt={`${match.home_team} logo`} className={`${styles.teamLogo} ${styles.homeLogo}`} />}
         </div>
 
@@ -203,9 +201,7 @@ const MatchItem = ({ match, liveScoreData, onBetPlaced, bettingAllowed, roundInf
 
         {/* Away Team Name (far right) */}
         <div className={`${styles.teamNameBlock} ${styles.awayTeamNameBlock}`}>
-           <span className={`${styles.teamName} ${match.winner === match.away_team ? styles.winningTeam : ''}`}>
-             {match.away_team}
-           </span>
+           <span className={styles.teamName}>{match.away_team}</span>
            {awayLogo && <img src={awayLogo} alt={`${match.away_team} logo`} className={`${styles.teamLogo} ${styles.awayLogo}`} />}
         </div>
       </div>

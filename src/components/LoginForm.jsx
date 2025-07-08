@@ -1,8 +1,9 @@
 // src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth'; // To update auth state on success
-import api from '../services/api'; // Your Axios instance
+import { useAuth } from '../hooks/useAuth';
+import api from '../services/api';
+import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -48,76 +49,53 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      {error && <p style={errorStyle}>{error}</p>}
-      <div style={inputGroupStyle}>
-        <label htmlFor="username">Username:</label>
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      
+      <div className={styles.inputGroup}>
+        <label htmlFor="username" className={styles.label}>Username</label>
         <input
           type="text"
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={inputStyle}
+          className={styles.input}
+          placeholder="Enter your username"
+          autoComplete="username"
         />
       </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="password">Password:</label>
+      
+      <div className={styles.inputGroup}>
+        <label htmlFor="password" className={styles.label}>Password</label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={inputStyle}
+          className={styles.input}
+          placeholder="Enter your password"
+          autoComplete="current-password"
         />
       </div>
-      <button type="submit" disabled={loading} style={buttonStyle}>
-        {loading ? 'Logging in...' : 'Login'}
+      
+      <button 
+        type="submit" 
+        disabled={loading || !username || !password} 
+        className={`${styles.submitButton} ${loading ? styles.loading : ''}`}
+      >
+        {loading ? (
+          <>
+            <span className={styles.spinner}></span>
+            Signing in...
+          </>
+        ) : (
+          'Sign In'
+        )}
       </button>
     </form>
   );
 };
-
-// Basic inline styles (consider moving to CSS/Modules later)
-const formStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  maxWidth: '300px',
-  margin: '20px auto',
-  padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-};
-
-const inputGroupStyle = {
-  marginBottom: '15px',
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const inputStyle = {
-  padding: '8px',
-  marginTop: '5px',
-  border: '1px solid #ccc',
-  borderRadius: '3px',
-};
-
-const buttonStyle = {
-  padding: '10px 15px',
-  backgroundColor: '#007bff',
-  color: 'white',
-  border: 'none',
-  borderRadius: '3px',
-  cursor: 'pointer',
-};
-
-const errorStyle = {
-    color: 'red',
-    marginBottom: '10px',
-    textAlign: 'center',
-    fontSize: '0.9em',
-}
-
 
 export default LoginForm;

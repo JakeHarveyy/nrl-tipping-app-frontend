@@ -113,7 +113,10 @@ const Navbar = () => {
                     ▼
                   </span>
                 </button>
-                <div className={`${styles.dropdownMenu} ${isUserDropdownOpen ? '' : styles.hidden}`}>
+                <div 
+                  className={styles.dropdownMenu}
+                  style={{ display: isUserDropdownOpen ? 'block' : 'none' }}
+                >
                   <NavLink 
                     to="/dashboard" 
                     className={styles.dropdownItem}

@@ -1,0 +1,145 @@
+/* src/pages/LoginPage.module.css */
+
+.loginPageContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #f5f7fa;
+  padding: 40px 20px 20px;
+  padding-top: calc(70px + 30px);
+}
+
+.loginCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.loginTitle {
+  color: #1a1a1a;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.loginSubtitle {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.loginFormSection {
+  margin-bottom: 24px;
+}
+
+.divider {
+  position: relative;
+  margin: 24px 0;
+  text-align: center;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e1e5e9;
+}
+
+.dividerText {
+  background: white;
+  color: #666;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.googleLoginSection {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.signupPrompt {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.signupPrompt p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.signupLink {
+  color: #2a5298;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.signupLink:hover {
+  color: #1e3c72;
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .loginPageContainer {
+    padding: 16px;
+    padding-top: calc(70px + 20px);
+  }
+  
+  .loginCard {
+    padding: 32px 24px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  
+  .loginTitle {
+    font-size: 24px;
+  }
+  
+  .loginSubtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .loginCard {
+    padding: 24px 20px;
+  }
+  
+  .loginTitle {
+    font-size: 22px;
+  }
+}
