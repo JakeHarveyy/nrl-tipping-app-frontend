@@ -76,7 +76,7 @@ const MatchList = ({ onBetPlaced }) => {
   // --- SSE Effect ---
   useEffect(() => {
     console.log("MatchList: Setting up SSE connection.");
-    const eventSource = new EventSource('${API_BASE_URL}/api/stream/updates');
+    const eventSource = new EventSource(`${API_BASE_URL}/api/stream/updates`);
 
     eventSource.onopen = (event) => {
     console.log("SSE Connection opened:", event);
