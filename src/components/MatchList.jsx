@@ -4,6 +4,7 @@ import api from '../services/api';
 import MatchItem from './MatchItem';
 import AIPredictionDisplay from './AIPredictionDisplay'; 
 import styles from './MatchList.module.css';
+import api, { API_BASE_URL } from '../services/api'; 
 
 const MatchList = ({ onBetPlaced }) => {
   const [matches, setMatches] = useState([]);
@@ -76,7 +77,7 @@ const MatchList = ({ onBetPlaced }) => {
   // --- SSE Effect ---
   useEffect(() => {
     console.log("MatchList: Setting up SSE connection.");
-    const eventSource = new EventSource('http://127.0.0.1:5000/api/stream/updates');
+    const eventSource = new EventSource('${API_BASE_URL}/api/stream/updates');
 
     eventSource.onopen = (event) => {
     console.log("SSE Connection opened:", event);
@@ -290,10 +291,7 @@ const MatchList = ({ onBetPlaced }) => {
               onBetPlaced={onBetPlaced}
               bettingAllowed={roundInfo?.status === 'Active'} // Pass based on roundInfo
             />
-            <AIPredictionDisplay 
-              key={`ai-prediction-${match.match_id}`}
-              prediction={aiPredictions[match.match_id]} 
-            />
+            <AIPredictionDisplay prediction={aiPredictions[match.match_id]} />
           </div>
         ))}
     </div>
