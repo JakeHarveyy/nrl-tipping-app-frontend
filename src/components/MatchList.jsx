@@ -1,6 +1,5 @@
 // src/components/MatchList.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import api from '../services/api';
 import MatchItem from './MatchItem';
 import AIPredictionDisplay from './AIPredictionDisplay'; 
 import styles from './MatchList.module.css';
