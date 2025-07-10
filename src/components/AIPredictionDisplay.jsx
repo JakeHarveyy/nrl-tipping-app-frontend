@@ -22,7 +22,7 @@ const AIPredictionDisplay = ({ prediction }) => {
   } = prediction;
 
   // Determine colors and styles based on confidence level
-  const confidenceClass = styles[confidence_level?.toLowerCase()] || styles.low;
+  const confidenceClass = styles[confidence_level?.toLowerCase().replace(/\s+/g, '')] || styles.low;
 
   const home_percent = (home_win_probability * 100).toFixed(1);
   const away_percent = (away_win_probability * 100).toFixed(1);

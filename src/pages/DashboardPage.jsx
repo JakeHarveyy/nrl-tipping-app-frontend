@@ -1,5 +1,6 @@
 // src/pages/DashboardPage.jsx
 import React, { useEffect, useState } from 'react'; // Add useEffect, useState
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import MatchList from '../components/MatchList.jsx'; // Import MatchList
 import api from '../services/api'; // Import api service
@@ -118,6 +119,68 @@ const DashboardPage = () => {
               >
                 ${Number(bankroll).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
+            </div>
+            
+            {/* How to Play Button */}
+            <div style={{ marginTop: '15px', textAlign: 'center' }}>
+              <Link 
+                to="/how-to-play"
+                style={{
+                  display: 'inline-block',
+                  padding: '12px 24px',
+                  backgroundColor: '#ffc107',
+                  color: '#333333',
+                  textDecoration: 'none',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  fontSize: '16px',
+                  transition: 'all 0.2s ease',
+                  border: '2px solid #ffc107',
+                  boxShadow: '0 2px 8px rgba(255, 193, 7, 0.2)',
+                  marginRight: '10px'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e0a800';
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(255, 193, 7, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#ffc107';
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 8px rgba(255, 193, 7, 0.2)';
+                }}
+              >
+                📚 How to Play
+              </Link>
+              
+              <Link 
+                to="/ai-dashboard"
+                style={{
+                  display: 'inline-block',
+                  padding: '12px 24px',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  fontSize: '16px',
+                  transition: 'all 0.2s ease',
+                  border: '2px solid #3b82f6',
+                  boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#2563eb';
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#3b82f6';
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.2)';
+                }}
+              >
+                🤖 AI Dashboard
+              </Link>
             </div>
           </div>
           {/* Add Match List Component */}

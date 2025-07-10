@@ -9,6 +9,7 @@ const LeaderboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [currentUserEntry, setCurrentUserEntry] = useState(null);
   const { user } = useAuth();
   // TODO: Add state for pagination later
 
@@ -47,12 +48,28 @@ const LeaderboardPage = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Effect to find and mark the current user's entry in the leaderboard
+  useEffect(() => {
+    if (user && leaderboard.length > 0) {
+      // Try to find user by username (most reliable) or ID
+      const userEntry = leaderboard.find(entry => 
+        entry.username === user.username ||
+        String(entry.user_id) === String(user.id)
+      );
+      
+      setCurrentUserEntry(userEntry || null);
+    }
+  }, [user, leaderboard]);
+
   const formatCurrency = (amount) => {
     return `$${Number(amount).toFixed(2)}`;
   };
 
   const getRankIcon = (rank) => {
-    switch (rank) {
+    // Convert rank to number to handle string values
+    const numRank = Number(rank);
+    
+    switch (numRank) {
       case 1:
         return '🥇';
       case 2:
@@ -65,7 +82,25 @@ const LeaderboardPage = () => {
   };
 
   const isCurrentUser = (entry) => {
-    return user && entry.user_id === user.id;
+    // Check if this entry matches our known current user entry
+    if (currentUserEntry) {
+      return String(entry.user_id) === String(currentUserEntry.user_id);
+    }
+    
+    // Fallback to username comparison if we haven't identified the current user entry
+    return user && entry.username === user.username;
+  };
+
+  const isBot = (entry) => {
+    // Check multiple possible field names and values
+    const botResult = entry.is_bot === true || 
+                     entry.is_bot === 1 || 
+                     entry.is_bot === "true" ||
+                     entry.bot === true ||
+                     entry.bot === 1 ||
+                     entry.username === 'LogisticsRegressionBot' ||
+                     entry.username?.toLowerCase().includes('bot');
+    return botResult;
   };
 
   const getPodiumEntries = () => {
@@ -122,7 +157,7 @@ const LeaderboardPage = () => {
                 {getPodiumEntries().map((entry) => (
                   <div 
                     key={entry.user_id} 
-                    className={`${styles.podiumPosition} ${styles[`position${entry.rank}`]} ${isCurrentUser(entry) ? styles.currentUser : ''}`}
+                    className={`${styles.podiumPosition} ${styles[`position${entry.rank}`]} ${isCurrentUser(entry) ? styles.currentUser : ''} ${isBot(entry) ? styles.botUser : ''}`}
                   >
                     <div className={styles.podiumRank}>
                       {getRankIcon(entry.rank)}
@@ -131,6 +166,7 @@ const LeaderboardPage = () => {
                       <div className={styles.podiumUsername}>
                         {entry.username}
                         {isCurrentUser(entry) && <span className={styles.youBadge}>YOU</span>}
+                        {isBot(entry) && <span className={styles.botBadge}>AI</span>}
                       </div>
                       <div className={styles.podiumBankroll}>
                         {formatCurrency(entry.bankroll)}
@@ -145,6 +181,7 @@ const LeaderboardPage = () => {
           {/* Full Leaderboard Table */}
           <div className={styles.tableSection}>
             <h3 className={styles.tableTitle}>Complete Rankings</h3>
+            
             <div className={styles.tableWrapper}>
               <table className={styles.leaderboardTable}>
                 <thead>
@@ -158,7 +195,7 @@ const LeaderboardPage = () => {
                   {leaderboard.map((entry) => (
                     <tr 
                       key={entry.user_id} 
-                      className={`${isCurrentUser(entry) ? styles.currentUserRow : ''} ${entry.rank <= 3 ? styles.topThree : ''}`}
+                      className={`${isCurrentUser(entry) ? styles.currentUserRow : entry.rank <= 3 ? styles.topThree : isBot(entry) ? styles.botUserRow : ''}`}
                     >
                       <td className={styles.rankCell}>
                         <span className={styles.rankDisplay}>
@@ -169,6 +206,7 @@ const LeaderboardPage = () => {
                         <span className={styles.username}>
                           {entry.username}
                           {isCurrentUser(entry) && <span className={styles.youBadge}>YOU</span>}
+                          {isBot(entry) && <span className={styles.botBadge}>AI</span>}
                         </span>
                       </td>
                       <td className={styles.bankrollCell}>
@@ -187,7 +225,7 @@ const LeaderboardPage = () => {
               {leaderboard.map((entry) => (
                 <div 
                   key={`mobile-${entry.user_id}`} 
-                  className={`${styles.mobileCard} ${isCurrentUser(entry) ? styles.currentUserCard : ''} ${entry.rank <= 3 ? styles.topThreeCard : ''}`}
+                  className={`${styles.mobileCard} ${isCurrentUser(entry) ? styles.currentUserCard : entry.rank <= 3 ? styles.topThreeCard : isBot(entry) ? styles.botUserCard : ''}`}
                 >
                   <div className={styles.mobileCardLeft}>
                     <div className={styles.mobileCardRank}>
@@ -196,6 +234,7 @@ const LeaderboardPage = () => {
                     <div className={styles.mobileCardUsername}>
                       {entry.username}
                       {isCurrentUser(entry) && <span className={styles.youBadge}>YOU</span>}
+                      {isBot(entry) && <span className={styles.botBadge}>AI</span>}
                     </div>
                   </div>
                   <div className={styles.mobileCardRight}>
@@ -206,22 +245,6 @@ const LeaderboardPage = () => {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Stats Section */}
-          <div className={styles.statsSection}>
-            <div className={styles.statCard}>
-              <span className={styles.statLabel}>Total Players</span>
-              <span className={styles.statValue}>{leaderboard.length}</span>
-            </div>
-            {user && (
-              <div className={styles.statCard}>
-                <span className={styles.statLabel}>Your Rank</span>
-                <span className={styles.statValue}>
-                  {leaderboard.find(entry => entry.user_id === user.id)?.rank || 'N/A'}
-                </span>
-              </div>
-            )}
           </div>
         </>
       )}

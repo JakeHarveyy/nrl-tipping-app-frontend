@@ -173,6 +173,29 @@
   text-align: center;
 }
 
+/* Legend */
+.legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c757d;
+}
+
+.legendText {
+  font-weight: 500;
+}
+
 .tableWrapper {
   background: white;
   border-radius: 12px;
@@ -226,18 +249,18 @@
 }
 
 .currentUserRow {
-  background: linear-gradient(90deg, #d4edda, #ffffff) !important;
-  border-left: 4px solid #28a745;
+  background: linear-gradient(90deg, #cfe2ff, #ffffff) !important;
+  border-left: 4px solid #0d6efd;
   font-weight: 600;
 }
 
 .currentUserRow:hover {
-  background: linear-gradient(90deg, #c3e6cb, #f8f9fa) !important;
+  background: linear-gradient(90deg, #b8d4ff, #f8f9fa) !important;
 }
 
 .currentUser {
-  border: 3px solid #28a745 !important;
-  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+  border: 3px solid #0d6efd !important;
+  box-shadow: 0 0 20px rgba(13, 110, 253, 0.3);
 }
 
 .rankCell {
@@ -275,7 +298,7 @@
 }
 
 .youBadge {
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: linear-gradient(135deg, #0d6efd, #0dcaf0);
   color: white;
   padding: 3px 8px;
   border-radius: 12px;
@@ -283,7 +306,7 @@
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
 }
 
 /* Mobile Card Layout (Alternative to table) */
@@ -309,8 +332,8 @@
 }
 
 .mobileCard.currentUserCard {
-  background: linear-gradient(90deg, #d4edda, #ffffff);
-  border-left: 4px solid #28a745;
+  background: linear-gradient(90deg, #cfe2ff, #ffffff);
+  border-left: 4px solid #0d6efd;
 }
 
 .mobileCard.topThreeCard {
@@ -720,4 +743,67 @@
     min-width: 250px;
     padding: 40px 30px;
   }
+}
+
+/* Bot User Styling */
+.botBadge {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  margin-left: 8px;
+}
+
+.botUser {
+  border: 3px solid #6c5ce7 !important;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+  background: linear-gradient(135deg, #f8f7ff, #ffffff) !important;
+}
+
+.botUserRow {
+  background: linear-gradient(90deg, #e2e1ff, #ffffff) !important;
+  border-left: 4px solid #6c5ce7;
+}
+
+.botUserRow:hover {
+  background: linear-gradient(90deg, #d4d2ff, #f8f9fa) !important;
+}
+
+.botUserCard {
+  background: linear-gradient(90deg, #e2e1ff, #ffffff) !important;
+  border-left: 4px solid #6c5ce7;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+}
+
+/* Bot user in podium gets special glow effect */
+.botUser.position1 {
+  background: linear-gradient(135deg, #ffd700, #ffed4a, #f8f7ff) !important;
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.4), 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.botUser.position2 {
+  background: linear-gradient(135deg, #c0c0c0, #e2e8f0, #f8f7ff) !important;
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.4), 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.botUser.position3 {
+  background: linear-gradient(135deg, #cd7f32, #f6ad55, #f8f7ff) !important;
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.4), 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific style overrides for bot badge in rows */
+.botUserRow .botBadge {
+  background: linear-gradient(135deg, #6c5ce7, #8c7ae6);
+  color: white;
+}
+
+/* Style overrides for bot badge in mobile cards */
+.botUserCard .botBadge {
+  background: linear-gradient(135deg, #6c5ce7, #8c7ae6);
+  color: white;
 }

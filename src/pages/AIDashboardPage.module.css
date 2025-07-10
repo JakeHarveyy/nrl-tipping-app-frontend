@@ -1,0 +1,524 @@
+/* src/pages/AIDashboardPage.module.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  color: white;
+  padding: 2rem 2rem 3rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 32px;
+  border-radius: 16px;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 8px 0 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.backButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.errorBanner {
+  background: rgba(251, 146, 60, 0.2);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Loading States */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+.loadingSpinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  background: #fef2f2;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+  margin: 20px 0;
+}
+
+.error h2 {
+  color: #dc2626;
+  margin-bottom: 16px;
+}
+
+.retryButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: #64748b;
+}
+
+.tab.active {
+  background: white;
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab:hover {
+  color: #1e293b;
+}
+
+/* Content */
+.content {
+  min-height: 400px;
+}
+
+/* Overview Styles */
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.statCard {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 8px 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chartSection {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.chartSection h3 {
+  margin: 0 0 20px 0;
+  color: #1f2937;
+}
+
+/* Predictions Styles */
+.predictions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.predictionStats {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.accuracyBreakdown {
+  margin-top: 16px;
+}
+
+.accuracyBar {
+  width: 100%;
+  height: 24px;
+  background: #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.accuracyFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  transition: width 0.8s ease;
+}
+
+.predictionsList {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.predictionItem {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.predictionItem:hover {
+  background: #f9fafb;
+}
+
+.predictionItem:last-child {
+  border-bottom: none;
+}
+
+.predictionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.teams {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.date {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.predictionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prediction, .result {
+  font-size: 0.9rem;
+}
+
+.confidence {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.correct {
+  color: #10b981;
+  margin-left: 8px;
+}
+
+.incorrect {
+  color: #ef4444;
+  margin-left: 8px;
+}
+
+.pending {
+  color: #f59e0b;
+  margin-left: 8px;
+}
+
+/* Bets Styles */
+.bets {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.betsStats {
+  display: flex;
+  gap: 24px;
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.betStat {
+  text-align: center;
+  flex: 1;
+}
+
+.betStatValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.betStatLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.betsList {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.betItem {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.betItem:hover {
+  background: #f9fafb;
+}
+
+.betItem:last-child {
+  border-bottom: none;
+}
+
+.betHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.betTeams {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.betStatus {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.betStatus.won {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.betStatus.lost {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.betStatus.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.betDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Model Info Styles */
+.modelInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modelDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.modelCard {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.modelCard h4 {
+  color: #1f2937;
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+}
+
+.modelCard p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modelCard ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #6b7280;
+}
+
+.modelCard li {
+  margin-bottom: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header {
+    padding: 1.5rem 1rem 2rem;
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .backButton {
+    position: static;
+    margin-bottom: 16px;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .betsStats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .modelDetails {
+    grid-template-columns: 1fr;
+  }
+
+  .predictionHeader,
+  .betHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .betStatValue {
+    font-size: 1.5rem;
+  }
+}

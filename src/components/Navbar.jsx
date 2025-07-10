@@ -95,6 +95,12 @@ const Navbar = () => {
             >
               AI Info
             </NavLink>
+            <NavLink 
+              to="/ai-dashboard" 
+              className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+            >
+              AI Dashboard
+            </NavLink>
           </div>
 
           {/* Desktop Auth Section */}
@@ -196,6 +202,13 @@ const Navbar = () => {
             onClick={closeMobileMenu}
           >
             AI Info
+          </NavLink>
+          <NavLink 
+            to="/ai-dashboard" 
+            className={styles.mobileNavLink}
+            onClick={closeMobileMenu}
+          >
+            AI Dashboard
           </NavLink>
         </div>
 
