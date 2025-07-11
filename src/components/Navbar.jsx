@@ -90,12 +90,6 @@ const Navbar = () => {
               </NavLink>
             )}
             <NavLink 
-              to="/ai-info" 
-              className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
-            >
-              AI Info
-            </NavLink>
-            <NavLink 
               to="/ai-dashboard" 
               className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
             >
@@ -196,13 +190,6 @@ const Navbar = () => {
               My Bets
             </NavLink>
           )}
-          <NavLink 
-            to="/ai-info" 
-            className={styles.mobileNavLink}
-            onClick={closeMobileMenu}
-          >
-            AI Info
-          </NavLink>
           <NavLink 
             to="/ai-dashboard" 
             className={styles.mobileNavLink}

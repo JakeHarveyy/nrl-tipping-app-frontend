@@ -29,7 +29,7 @@ ChartJS.register(
   Filler // Register Filler for area chart
 );
 
-const BankrollChart = () => {
+const BankrollChart = ({ useAIBot = false }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -49,8 +49,23 @@ const BankrollChart = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await api.get('/user/bankroll-history');
-        const history = response.data?.bankroll_history || [];
+        // Use different endpoint based on the useAIBot prop
+        const endpoint = useAIBot ? '/ai-bot/bankroll-history' : '/user/bankroll-history';
+        const response = await api.get(endpoint);
+        
+        console.log(`${useAIBot ? 'AI bot' : 'User'} bankroll response:`, response.data);
+        
+        // Handle different response formats
+        let history;
+        if (useAIBot) {
+          // AI bot endpoint returns nested bankroll_history
+          history = response.data?.bankroll_history || [];
+        } else {
+          // User endpoint returns nested bankroll_history
+          history = response.data?.bankroll_history || [];
+        }
+        
+        console.log(`${useAIBot ? 'AI bot' : 'User'} bankroll history:`, history);
 
         // Sort history by timestamp ascending for the chart
         history.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
@@ -61,8 +76,13 @@ const BankrollChart = () => {
           
           const first = data[0];
           const last = data[data.length - 1];
-          const startingBalance = first.new_balance - (first.change || 0);
-          const currentBalance = last.new_balance;
+          
+          // Handle different field names between user and AI bot data
+          const getChange = (entry) => entry.amount_change || entry.change || 0;
+          const getBalance = (entry) => entry.new_balance;
+          
+          const startingBalance = getBalance(first) - getChange(first);
+          const currentBalance = getBalance(last);
           const totalProfit = currentBalance - startingBalance;
           
           let totalStaked = 0;
@@ -72,12 +92,13 @@ const BankrollChart = () => {
           let worstDay = 0;
           
           data.forEach(entry => {
-            if (entry.change) {
-              if (entry.change > 0) wins++;
-              if (entry.change < 0) totalStaked += Math.abs(entry.change);
+            const change = getChange(entry);
+            if (change !== 0) {
+              if (change > 0) wins++;
+              if (change < 0) totalStaked += Math.abs(change);
               totalBets++;
-              bestDay = Math.max(bestDay, entry.change);
-              worstDay = Math.min(worstDay, entry.change);
+              bestDay = Math.max(bestDay, change);
+              worstDay = Math.min(worstDay, change);
             }
           });
           
@@ -111,7 +132,7 @@ const BankrollChart = () => {
              setChartData({
                  labels: [],
                  datasets: [{
-                     label: 'Bankroll ($)',
+          label: useAIBot ? 'AI Bot Bankroll' : 'Bankroll ($)',
                      data: [],
                      borderColor: 'rgb(34, 197, 94)',
                      backgroundColor: 'rgba(34, 197, 94, 0.1)',
@@ -127,12 +148,14 @@ const BankrollChart = () => {
         let chartHistory = [...filteredHistory];
         if (chartHistory.length > 0) {
           const firstEntry = chartHistory[0];
-          const startingBalance = firstEntry.new_balance - (firstEntry.change || 0);
+          const firstChange = firstEntry.amount_change || firstEntry.change || 0;
+          const startingBalance = firstEntry.new_balance - firstChange;
           
           // Add a starting point 
           chartHistory.unshift({
             timestamp: new Date(new Date(firstEntry.timestamp).getTime() - 60000).toISOString(),
             new_balance: startingBalance,
+            amount_change: 0,
             change: 0,
             description: 'Starting Balance'
           });
@@ -151,7 +174,7 @@ const BankrollChart = () => {
           labels: labels,
           datasets: [
             {
-              label: 'Bankroll',
+              label: useAIBot ? 'AI Bot Bankroll' : 'Bankroll',
               data: dataPoints,
               borderColor: borderColor,
               backgroundColor: backgroundColor,
@@ -170,15 +193,25 @@ const BankrollChart = () => {
         });
 
       } catch (err) {
-        console.error("Error fetching bankroll history:", err);
-        setError('Could not load bankroll history.');
+        console.error(`Error fetching ${useAIBot ? 'AI bot' : 'user'} bankroll history:`, err);
+        
+        // Check if it's a CORS error or network issue
+        if (err.message?.includes('CORS') || err.message?.includes('Access-Control-Allow-Origin') || err.code === 'ERR_NETWORK') {
+          setError(`${useAIBot ? 'AI bot' : 'User'} bankroll endpoint is not yet configured with CORS policy. Please contact the backend team to enable CORS for this endpoint.`);
+        } else if (err.response?.status === 404) {
+          setError(`${useAIBot ? 'AI bot' : 'User'} bankroll history endpoint not found. The backend may still be implementing this feature.`);
+        } else if (err.response?.status === 500) {
+          setError(`${useAIBot ? 'AI bot' : 'User'} bankroll endpoint encountered a server error. Please try again later.`);
+        } else {
+          setError(`Could not load ${useAIBot ? 'AI bot' : ''} bankroll history.`);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchHistory();
-  }, [timeRange]); // Re-fetch when time range changes
+  }, [timeRange, useAIBot]); // Re-fetch when time range or useAIBot changes
 
   const options = {
     responsive: true,
@@ -214,7 +247,7 @@ const BankrollChart = () => {
           },
           label: function(context) {
             const value = context.parsed.y;
-            return `Bankroll: ${new Intl.NumberFormat('en-US', { 
+            return `${useAIBot ? 'AI Bot ' : ''}Bankroll: ${new Intl.NumberFormat('en-US', { 
               style: 'currency', 
               currency: 'USD' 
             }).format(value)}`;
@@ -332,7 +365,7 @@ const BankrollChart = () => {
       fontSize: '16px',
       color: '#6b7280'
     }}>
-      <div>📊 Loading your bankroll history...</div>
+      <div>📊 Loading {useAIBot ? 'AI bot' : 'your'} bankroll history...</div>
     </div>
   );
   
@@ -345,8 +378,21 @@ const BankrollChart = () => {
       color: '#dc2626',
       textAlign: 'center'
     }}>
-      <div style={{ fontSize: '18px', marginBottom: '8px' }}>⚠️ Error</div>
-      <div>{error}</div>
+      <div style={{ fontSize: '18px', marginBottom: '8px' }}>⚠️ {useAIBot ? 'AI Bot Endpoint Issue' : 'Error'}</div>
+      <div style={{ fontSize: '14px', lineHeight: '1.5' }}>{error}</div>
+      {useAIBot && error.includes('CORS') && (
+        <div style={{ 
+          marginTop: '12px', 
+          padding: '12px', 
+          backgroundColor: '#fffbeb', 
+          border: '1px solid #fed7aa',
+          borderRadius: '6px',
+          fontSize: '12px',
+          color: '#92400e'
+        }}>
+          <strong>Technical Note:</strong> The AI bot bankroll endpoint needs CORS headers configured on the backend to allow browser access.
+        </div>
+      )}
     </div>
   );
 
@@ -360,8 +406,8 @@ const BankrollChart = () => {
       color: '#6b7280'
     }}>
       <div style={{ fontSize: '48px', marginBottom: '16px' }}>📈</div>
-      <div style={{ fontSize: '18px', marginBottom: '8px' }}>No Bankroll History Yet</div>
-      <div>Your bankroll chart will appear here once you start placing bets!</div>
+      <div style={{ fontSize: '18px', marginBottom: '8px' }}>No {useAIBot ? 'AI Bot' : ''} Bankroll History Yet</div>
+      <div>{useAIBot ? 'The AI bot bankroll chart will appear here once it starts placing bets!' : 'Your bankroll chart will appear here once you start placing bets!'}</div>
     </div>
   );
 
@@ -392,7 +438,7 @@ const BankrollChart = () => {
             gap: '8px'
           }}>
             <span>📊</span>
-            Bankroll Performance
+            {useAIBot ? 'AI Bot Bankroll Performance' : 'Bankroll Performance'}
           </h2>
           
           {/* Time Range Selector */}
@@ -534,7 +580,7 @@ const BankrollChart = () => {
         color: '#6b7280',
         textAlign: 'center'
       }}>
-        💡 Tip: Hover over any point on the chart to see detailed information about that day's performance
+        💡 Tip: Hover over any point on the chart to see detailed information about {useAIBot ? "the AI bot's" : "that day's"} performance
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ import GoogleCallbackPage from './pages/GoogleCallbackPage.jsx';
 import MyBetsPage from './pages/MyBetsPage.jsx';
 import ResultsPage from './pages/ResultsPage.jsx';
 import LeaderboardPage from './pages/LeaderboardPage.jsx';
-import AIInfoPage from './pages/AIInfoPage.jsx';
 import HowToPlayPage from './pages/HowToPlayPage.jsx';
 import AIDashboardPage from './pages/AIDashboardPage.jsx';
 
@@ -27,7 +26,6 @@ function App() {
         <Route path="register" element={<RegisterPage />} />
         <Route path="results" element={<ResultsPage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
-        <Route path="ai-info" element={<AIInfoPage />} />
         <Route path="ai-dashboard" element={<AIDashboardPage />} />
         <Route path="how-to-play" element={<HowToPlayPage />} />
         {/* Add other public routes like leaderboard here */}
