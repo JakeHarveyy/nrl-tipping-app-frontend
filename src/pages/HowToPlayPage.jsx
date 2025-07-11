@@ -302,7 +302,7 @@ const HowToPlayPage = () => {
               Go to Dashboard
             </Link>
             <Link 
-              to="/ai-info" 
+              to="/ai-dashboard" 
               style={{
                 display: 'inline-block',
                 padding: '12px 24px',

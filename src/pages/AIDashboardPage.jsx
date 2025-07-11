@@ -106,7 +106,7 @@ const AIDashboardPage = () => {
       if (predictions.length === 0 && bets.length === 0) {
         setError('AI Dashboard ready - No AI predictions or bets found yet for the current season');
       } else if (predictions.length === 0) {
-        setError('No AI predictions found for current rounds - AI bot may not have analyzed recent matches yet');
+        setError('No AI predictions found for current rounds - AI bot may not have analysed recent matches yet');
       } else if (bets.length === 0) {
         setError('AI predictions loaded successfully - No bets placed yet');
       } else {
@@ -240,7 +240,7 @@ const AIDashboardPage = () => {
             <p>The AI prediction system is active but no predictions were found for the current season rounds.</p>
             <p>This could mean:</p>
             <ul>
-              <li>The AI bot hasn't analyzed recent matches yet</li>
+              <li>The AI bot hasn't analysed recent matches yet</li>
               <li>No matches are available for prediction in the current rounds</li>
               <li>The AI system is still being trained on current season data</li>
             </ul>
@@ -465,10 +465,9 @@ const AIDashboardPage = () => {
     <div className={styles.modelInfo}>
       {/* Hero Section */}
       <div className={styles.heroSection}>
-        <div className={styles.heroIcon}>🤖</div>
         <h1 className={styles.heroTitle}>AI Prediction System</h1>
         <p className={styles.heroSubtitle}>
-          Baseline logistic regression model analyzing 60+ Features to predict NRL match outcomes with scientific precision
+          Baseline logistic regression model analysing 60+ Features to predict NRL match outcomes with scientific precision
         </p>
         <div className={styles.heroStats}>
           <div className={styles.heroStat}>
@@ -538,7 +537,7 @@ const AIDashboardPage = () => {
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>
             <span className={styles.sectionIcon}>📊</span>
-            What Data We Analyze
+            What Data We Analyse
           </h2>
           <p className={styles.sectionSubtitle}>Comprehensive data points that drive our predictions</p>
         </div>
@@ -657,7 +656,7 @@ const AIDashboardPage = () => {
           <div className={styles.strategyCard}>
             <div className={styles.strategyIcon}>📏</div>
             <h3>Optimal Sizing</h3>
-            <p>Kelly Criterion calculates the perfect bet size to maximize long-term growth while protecting your bankroll from significant losses.</p>
+            <p>Kelly Criterion calculates the perfect bet size to maximise long-term growth while protecting your bankroll from significant losses.</p>
             <div className={styles.strategyExample}>
               Larger edge = larger bet, but never risking more than mathematically optimal.
             </div>

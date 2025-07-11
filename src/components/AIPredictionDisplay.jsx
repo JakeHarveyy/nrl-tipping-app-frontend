@@ -34,7 +34,7 @@ const AIPredictionDisplay = ({ prediction }) => {
         <span className={styles.aiTitle}>AI Analysis</span>
         <button 
           className={styles.infoButton}
-          onClick={() => navigate('/ai-info')}
+          onClick={() => navigate('/ai-dashboard')}
           aria-label="Learn more about AI predictions"
         >
           ℹ️
