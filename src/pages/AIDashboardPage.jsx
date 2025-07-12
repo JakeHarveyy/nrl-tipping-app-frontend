@@ -49,13 +49,35 @@ const AIDashboardPage = () => {
         console.log('Could not fetch leaderboard data:', err.message);
       }
 
-      // Try to fetch AI predictions from available endpoints
+      // Fetch AI predictions using the new batch endpoint
       let predictions = [];
       const currentYear = new Date().getFullYear();
       
       try {
-        // Try to fetch from the available AI predictions endpoint
-        // Start from round 19 (current season) and work forward
+        const startRound = 19;
+        const endRound = 27;
+        
+        console.log(`Fetching AI predictions for year ${currentYear}, rounds ${startRound}-${endRound}`);
+        const predResponse = await api.get(`/ai-predictions/year/${currentYear}/rounds/${startRound}-${endRound}`);
+        
+        if (predResponse.data.predictions) {
+          // Transform the nested predictions structure into a flat array
+          predictions = Object.entries(predResponse.data.predictions).flatMap(([roundNumber, roundPredictions]) => 
+            Object.values(roundPredictions).map(pred => ({
+              ...pred,
+              round_number: parseInt(roundNumber),
+              year: currentYear
+            }))
+          );
+          
+          console.log(`Found ${predictions.length} predictions across ${predResponse.data.summary.rounds_found} rounds`);
+          console.log('API Response Summary:', predResponse.data.summary);
+        }
+      } catch (err) {
+        console.log('AI predictions batch endpoint error:', err.message);
+        // Fallback to individual round calls if batch endpoint fails
+        console.log('Falling back to individual round calls...');
+        
         const startRound = 19;
         const endRound = 27;
         const roundsToTry = Array.from({length: endRound - startRound + 1}, (_, i) => i + startRound);
@@ -74,13 +96,10 @@ const AIDashboardPage = () => {
               console.log(`Found ${roundPredictions.length} predictions for round ${round}`);
             }
           } catch (roundErr) {
-            // Silently continue - this round might not have predictions yet
             console.log(`No predictions for round ${round}:`, roundErr.message);
           }
         }
         console.log('Total AI predictions found:', predictions.length);
-      } catch (err) {
-        console.log('AI predictions endpoint error:', err.message);
       }
 
       // Try to fetch AI bets
