@@ -1,7 +1,6 @@
 // src/contexts/AuthContext.jsx
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
-// import { jwtDecode } from "jwt-decode"; // Install jwt-decode if needed: npm install jwt-decode
 
 export const AuthContext = createContext(null);
 
@@ -21,8 +20,6 @@ export const AuthProvider = ({ children }) => {
       setRefreshToken(data.refresh_token);
       // Optionally decode token to get user ID immediately
       // Or fetch user profile data
-      // const decoded = jwtDecode(data.access_token); // Example if needed
-      // setUser({ user_id: decoded.sub, username: '...' }); // Fetch full profile later
       console.log("Login successful, tokens stored.");
       // Manually trigger user fetch or profile load after login if needed
   }, []);
@@ -54,8 +51,6 @@ export const AuthProvider = ({ children }) => {
                   console.log("User profile loaded:", response.data);
                   // TEMPORARY: Simulate user loading if token exists
                   // Maybe decode token for ID here as placeholder
-                  // const decoded = jwtDecode(token);
-                  // setUser({ user_id: decoded.sub, username: 'Placeholder User' });
               } catch (error) {
                   console.error("Failed to fetch user profile:", error);
                   // Token might be invalid/expired, log out

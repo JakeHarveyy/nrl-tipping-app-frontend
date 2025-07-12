@@ -44,9 +44,6 @@ function App() {
       {/* Route WITHOUT the main Layout for Google Callback */}
       <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
 
-       {/* Add routes without the main Layout if needed */}
-       {/* <Route path="/some-special-page" element={<SpecialPage />} /> */}
-
     </Routes>
   );
 }
