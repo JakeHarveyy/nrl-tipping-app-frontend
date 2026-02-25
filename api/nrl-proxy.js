@@ -3,9 +3,9 @@
 // Heroku backend calls this instead of NRL.com directly, so the request originates
 // from an Australian IP — required for Sportsbet odds to be included in the response.
 
-const https = require('https');
+import https from 'https';
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   const { competition = '111', round, season } = req.query;
 
   if (!round || !season) {
@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     return res.status(502).json({ error: `Proxy fetch failed: ${err.message}` });
   }
-};
+}
 
 function fetchHtml(url) {
   return new Promise((resolve, reject) => {
