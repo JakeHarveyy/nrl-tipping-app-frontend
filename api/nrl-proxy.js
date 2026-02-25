@@ -23,7 +23,6 @@ export default async function handler(req, res) {
     // can safely slice from q-data=" to the next literal " to get the full value.
     const qDataStart = html.indexOf('q-data="');
     if (qDataStart === -1) {
-      // Debug: return a slice of the HTML so we can see what the page looks like
       return res.status(502).json({
         error: 'Could not find q-data on NRL.com page — page structure may have changed',
         html_sample: html.slice(0, 2000),
@@ -43,14 +42,17 @@ export default async function handler(req, res) {
       .replace(/&gt;/g, '>');
 
     const data = JSON.parse(decoded);
-    const fixtures = data.fixtures || [];
+
+    // NRL.com returns fixtures under 'fixtures' for some IPs and 'items' for others
+    const fixtures = data.fixtures || data.items || [];
 
     if (debug) {
+      const firstMatch = fixtures.find(f => f.type === 'Match');
       return res.status(200).json({
         fixture_count: fixtures.length,
         data_keys: Object.keys(data),
-        first_fixture_keys: fixtures[0] ? Object.keys(fixtures[0]) : [],
-        first_fixture_home: fixtures[0]?.homeTeam || null,
+        first_match_keys: firstMatch ? Object.keys(firstMatch) : [],
+        first_match_home: firstMatch?.homeTeam || null,
       });
     }
 
