@@ -6,7 +6,7 @@
 import https from 'https';
 
 export default async function handler(req, res) {
-  const { competition = '111', round, season } = req.query;
+  const { competition = '111', round, season, debug } = req.query;
 
   if (!round || !season) {
     return res.status(400).json({ error: 'Missing required query params: round, season' });
@@ -23,7 +23,11 @@ export default async function handler(req, res) {
     // can safely slice from q-data=" to the next literal " to get the full value.
     const qDataStart = html.indexOf('q-data="');
     if (qDataStart === -1) {
-      return res.status(502).json({ error: 'Could not find q-data on NRL.com page — page structure may have changed' });
+      // Debug: return a slice of the HTML so we can see what the page looks like
+      return res.status(502).json({
+        error: 'Could not find q-data on NRL.com page — page structure may have changed',
+        html_sample: html.slice(0, 2000),
+      });
     }
 
     const valueStart = qDataStart + 8; // length of 'q-data="'
@@ -40,6 +44,15 @@ export default async function handler(req, res) {
 
     const data = JSON.parse(decoded);
     const fixtures = data.fixtures || [];
+
+    if (debug) {
+      return res.status(200).json({
+        fixture_count: fixtures.length,
+        data_keys: Object.keys(data),
+        first_fixture_keys: fixtures[0] ? Object.keys(fixtures[0]) : [],
+        first_fixture_home: fixtures[0]?.homeTeam || null,
+      });
+    }
 
     // Cache for 60s at the CDN edge to avoid hammering NRL.com
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
