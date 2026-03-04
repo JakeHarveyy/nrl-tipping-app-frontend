@@ -49,39 +49,70 @@ const AIDashboardPage = () => {
         console.log('Could not fetch leaderboard data:', err.message);
       }
 
-      // Fetch AI predictions using the new batch endpoint
+      // Fetch AI predictions dynamically based on current round
       let predictions = [];
       const currentYear = new Date().getFullYear();
-      
+
+      // Determine the current round from the matches endpoint
+      let currentRound = 27;
       try {
-        const startRound = 19;
-        const endRound = 27;
-        
+        const matchesResponse = await api.get(`/matches?year=${currentYear}`);
+        if (matchesResponse.data.round_info) {
+          currentRound = matchesResponse.data.round_info.round_number;
+          console.log(`Current active round: ${currentRound}`);
+        }
+      } catch (err) {
+        console.log('Could not detect current round, defaulting to full season:', err.message);
+      }
+
+      try {
+        // Fetch from round 1 up to the current round (batch endpoint max 20 rounds)
+        const startRound = 1;
+        const endRound = Math.min(currentRound, 20);
+
         console.log(`Fetching AI predictions for year ${currentYear}, rounds ${startRound}-${endRound}`);
         const predResponse = await api.get(`/ai-predictions/year/${currentYear}/rounds/${startRound}-${endRound}`);
-        
+
         if (predResponse.data.predictions) {
           // Transform the nested predictions structure into a flat array
-          predictions = Object.entries(predResponse.data.predictions).flatMap(([roundNumber, roundPredictions]) => 
+          predictions = Object.entries(predResponse.data.predictions).flatMap(([roundNumber, roundPredictions]) =>
             Object.values(roundPredictions).map(pred => ({
               ...pred,
               round_number: parseInt(roundNumber),
               year: currentYear
             }))
           );
-          
+
           console.log(`Found ${predictions.length} predictions across ${predResponse.data.summary.rounds_found} rounds`);
           console.log('API Response Summary:', predResponse.data.summary);
+        }
+
+        // If current round > 20, fetch the remaining rounds in a second batch
+        if (currentRound > 20) {
+          try {
+            const predResponse2 = await api.get(`/ai-predictions/year/${currentYear}/rounds/21-${currentRound}`);
+            if (predResponse2.data.predictions) {
+              const morePredictions = Object.entries(predResponse2.data.predictions).flatMap(([roundNumber, roundPredictions]) =>
+                Object.values(roundPredictions).map(pred => ({
+                  ...pred,
+                  round_number: parseInt(roundNumber),
+                  year: currentYear
+                }))
+              );
+              predictions = [...predictions, ...morePredictions];
+              console.log(`Found ${morePredictions.length} additional predictions for rounds 21-${currentRound}`);
+            }
+          } catch (err2) {
+            console.log('Could not fetch predictions for rounds 21+:', err2.message);
+          }
         }
       } catch (err) {
         console.log('AI predictions batch endpoint error:', err.message);
         // Fallback to individual round calls if batch endpoint fails
         console.log('Falling back to individual round calls...');
-        
-        const startRound = 19;
-        const endRound = 27;
-        const roundsToTry = Array.from({length: endRound - startRound + 1}, (_, i) => i + startRound);
-        
+
+        const roundsToTry = Array.from({length: currentRound}, (_, i) => i + 1);
+
         for (const round of roundsToTry) {
           try {
             console.log(`Trying to fetch AI predictions for year ${currentYear}, round ${round}`);
@@ -220,7 +251,7 @@ const AIDashboardPage = () => {
       <div className={styles.predictionsList}>
         <h4>Recent Predictions</h4>
         {aiPredictions.length > 0 ? (
-          aiPredictions.slice(0, 10).map((prediction, index) => (
+          [...aiPredictions].sort((a, b) => b.round_number - a.round_number || new Date(b.match_date) - new Date(a.match_date)).slice(0, 10).map((prediction, index) => (
             <div key={index} className={styles.predictionItem}>
               <div className={styles.predictionHeader}>
                 <span className={styles.teams}>
